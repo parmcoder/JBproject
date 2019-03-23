@@ -25,6 +25,11 @@ public class DrawPanel extends JPanel {
     JButton fishtime = new JButton("Click to Bait");
     JButton SaveDB = new JButton("Quit Fishing");
 
+    String score = "Money earned = ";
+    int money = 0;
+
+    JLabel label = new JLabel(score+money);
+
     private ArrayList<EasyFish> fishlist = new ArrayList<>();
 
     public ArrayList<EasyFish> getFishlist(){
@@ -40,18 +45,9 @@ public class DrawPanel extends JPanel {
         fishlist = new ArrayList<>();
 
         for (int i = 0; i < 11; i++) {
-            int x = (int) (Math.random() * 1000);
-            int y = (int) (Math.random() * 600);
-            if (x > 900) {
-                x -= 100;
-            } else if (x < 80) {
-                x += 100;
-            }
-            if (y > 520) {
-                y -= 100;
-            } else if (y < 80) {
-                y += 100;
-            }
+            int x = (int) (175+Math.random() * 1000);
+            int y = (int) (Math.random() * 500);
+
             fishlist.add(new EasyFish(x, y));
         }
 
@@ -71,7 +67,12 @@ public class DrawPanel extends JPanel {
     public void go() {
         fishtime.setBounds(1000, 650, 200, 50);
         fishtime.addActionListener(new CreatorListener());
+        label.setBounds(300, 650, 600, 80);
+        label.setFont(new Font("Arial", Font.PLAIN, 20));
+        label.setForeground(Color.WHITE);
+        label.setBackground(Color.CYAN);
         this.add(fishtime);
+        this.add(label);
     }
 
     public void paintComponent(Graphics g) // this will be called automatically

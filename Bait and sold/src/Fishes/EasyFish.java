@@ -18,10 +18,18 @@ public class EasyFish {
         return this.XofFish;
     }
 
-    public int setFishx(int i)
+    public void setFishx(int i)
     {
         this.XofFish = i;
-        return this.XofFish;
+    }
+    public void setFishy(int i)
+    {
+        this.YofFish = i;
+    }
+
+    public void setFishLocation(int x, int y){
+        this.XofFish = x;
+        this.YofFish = y;
     }
 
     public int getFishy(){
