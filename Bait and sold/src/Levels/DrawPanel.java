@@ -23,6 +23,7 @@ public class DrawPanel extends JPanel {
 //    private int blue;
 
     JButton fishtime = new JButton("Click to Bait");
+    JButton SaveDB = new JButton("Quit Fishing");
 
     private ArrayList<EasyFish> fishlist = new ArrayList<>();
 
@@ -68,7 +69,7 @@ public class DrawPanel extends JPanel {
     }
 
     public void go() {
-        fishtime.setBounds(1000, 700, 200, 50);
+        fishtime.setBounds(1000, 650, 200, 50);
         fishtime.addActionListener(new CreatorListener());
         this.add(fishtime);
     }
@@ -77,6 +78,9 @@ public class DrawPanel extends JPanel {
     {
         super.paintComponent(g); //needed since we're using JPanel extends
         setBackground(Color.DARK_GRAY);
+
+        Image image = new ImageIcon("Pic_lib/Bucket.png").getImage();// the bucket is 150*150 pixels
+        g.drawImage(image, 100, 600, this);
 
         for (EasyFish fish : fishlist) {
             fish.paintComponent(g);

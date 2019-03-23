@@ -13,13 +13,16 @@ public class panel_1 {
         JPanel gamepane = new JPanel();
         JPanel menupane = new JPanel();
 
+
+        JButton newgame = new JButton("NEW GAME");
+        JButton GotoMenu = new JButton( "Back to menu");
+
         gamestarted gamepanel = new gamestarted();
 
        // JPanel loadpane = new JPanel();
       //  JPanel helppane = new JPanel();
 
         Container panestorage = mainpane;
-
         CardLayout cl = new CardLayout();
 
 
@@ -28,14 +31,12 @@ public class panel_1 {
                 panestorage.setLayout(cl);
                 gamepane = gamepanel.getGamedraw();
                 //gamepane.addMouseListener(clicker);
-                gamepane.setBackground(Color.BLACK);
 
                 panestorage.add(gamepane, "gamepane");
                 panestorage.add(menupane, "menupane");
 
                 cl.show(panestorage, "menupane");
-
-                JButton newgame = new JButton("NEW GAME");
+                GotoMenu.setBounds(1000, 700, 200, 50);
              //   JButton loadgame = new JButton("LOAD GAME");
            //     JButton help = new JButton("HELP");
 
@@ -49,6 +50,8 @@ public class panel_1 {
                 menupane.setBackground(Color.BLACK);
 
                 newgame.addActionListener(new PanelListener1());
+                GotoMenu.addActionListener(new PanelListener2());
+
 
                 //  loadgame.addActionListener(new PanelListener1());
               //  help.addActionListener(new PanelListener1());
@@ -71,7 +74,7 @@ public class panel_1 {
                 c.gridy = 2; // row 3
             //    menupane.add(help, c);
 
-
+                gamepane.add(GotoMenu);
                 return mainpane;
         }
 
@@ -79,9 +82,17 @@ public class panel_1 {
                 public void actionPerformed(ActionEvent event){
                         cl.show(panestorage,"gamepane");
                         System.out.println("clicked");
+
                 }
         }
 
+        class PanelListener2 implements ActionListener{
+                public void actionPerformed(ActionEvent event){
+                        cl.show(panestorage,"menupane");
+                        System.out.println("clicked");
+                        newgame.setText("CONTINUE");
+                }
+        }
 
 
 }

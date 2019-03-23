@@ -33,7 +33,7 @@ public class EasyFish {
        // Image image = new ImageIcon("/home/parmcoder/gjbfish/JBproject/Bait and sold/src/unshi.jpg").getImage();
        // g.drawImage(image, getFishx(), getFishy(), (ImageObserver) this);
         g.setColor(Color.BLUE);
-        g.fillOval(getFishx(),getFishy(),50,50);
+        g.fillRect(getFishx(),getFishy(),50,50);
     }
 
 }
