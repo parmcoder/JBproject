@@ -124,7 +124,6 @@ public class DrawPanel extends JPanel {
             fishlist.removeAll(fishlist);
             game.add(player);
             game.add(SaveDB);
-            repaint();
         }
         for (EasyFish fish : fishlist) {
             fish.paintComponent(g);

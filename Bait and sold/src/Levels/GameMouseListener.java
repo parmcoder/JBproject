@@ -41,7 +41,7 @@ public class GameMouseListener extends MouseAdapter {
             workingpanel.repaint();
             //remover.remove(the_fish);
         }
-        System.out.println(e.getX() + "and" + e.getY() + current+ workingpanel.money);
+     //   System.out.println(e.getX() + "and" + e.getY() + current+ workingpanel.money);
         workingpanel.repaint();
     }
 
