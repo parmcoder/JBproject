@@ -5,7 +5,7 @@ import Fishes.EasyFish;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Timer;
+
 
 public class GameMouseListener extends MouseAdapter {
     private DrawPanel workingpanel;
@@ -13,8 +13,6 @@ public class GameMouseListener extends MouseAdapter {
     private Point2D current;
     private EasyFish fishy;
     public MoveLeft m;
-
-  //  private GameAnimator animator;
 
     public EasyFish find(Point2D onclick) { //we use this method to find fish, similar to find Point2D
         for (EasyFish showing : workingpanel.getFishlist()) {
@@ -25,7 +23,6 @@ public class GameMouseListener extends MouseAdapter {
         }
         return null; //there is no fish there right?
     }
-
 
     public GameMouseListener(DrawPanel p) { // trick to make it work for extends JPanel class
         super();
@@ -39,11 +36,13 @@ public class GameMouseListener extends MouseAdapter {
         EasyFish the_fish = find(current);
         if(the_fish != null){
             catching(the_fish);
+            workingpanel.money +=10;
+            workingpanel.label.setText(workingpanel.score+workingpanel.money);
+            workingpanel.repaint();
             //remover.remove(the_fish);
         }
         System.out.println(e.getX() + "and" + e.getY() + current+ workingpanel.money);
         workingpanel.repaint();
-
     }
 
     //HERE ARE THE THREADS
@@ -54,68 +53,46 @@ public class GameMouseListener extends MouseAdapter {
             fish = fishpivot;
         }
         public void run() {
-            while (fish.getFishx() >= 150) {
+            while (fish.getFishx() >= 140) {
                 int newx = fish.getFishx()-1;
                 fish.setFishx(newx);
-       /* while(item.getY()<350-28){
-            double x = item.getX();
-            double y = item.getY()+1;
-            //find the position of below picture
-            double xright = x+41;
-            double stopper = y+40;
-            Point2D newitemL = new Point2D.Double(x,stopper); //coordinate below the left corner
-            Point2D newitemR = new Point2D.Double(xright,stopper); //coordinate below the right corner
-            if (find(newitemL) != null || find(newitemR) != null) break; //using find to check if it is null or not?
-            item.setLocation(x, y);*/
                 workingpanel.repaint();
+                if(fish==null){break;}
 
-                try {Thread.sleep(10);} catch (Exception e) { }
+                try {Thread.sleep(5);} catch (Exception e) { }
             }
-            fish.setFishy(620);
-            try {Thread.sleep(30);} catch (Exception e) { }
-            workingpanel.repaint();
-            workingpanel.getFishlist().remove(fish); //remove that fish
-            workingpanel.repaint();
+            if(fish.getFishy()>600 && fish.getFishx() < 155){
+                workingpanel.getFishlist().remove(fish); //remove that fish
+                workingpanel.repaint();
+            }
         }
     }
 
     class MoveDown implements Runnable {
         EasyFish fish;
-
+        int newy;
 
         MoveDown(EasyFish fishpivot){
             fish = fishpivot;
         }
         public void run() {
             while (fish.getFishy() <= 620) {
-
-                int newy = fish.getFishy()+1;
+                if(fish.getFishx() == 139){
+                    newy = fish.getFishy()+8;
+                }
+                else{ newy = fish.getFishy()+1;}
                 fish.setFishy(newy);
-       /* while(item.getY()<350-28){
-            double x = item.getX();
-            double y = item.getY()+1;
-            //find the position of below picture
-            double xright = x+41;
-            double stopper = y+40;
-            Point2D newitemL = new Point2D.Double(x,stopper); //coordinate below the left corner
-            Point2D newitemR = new Point2D.Double(xright,stopper); //coordinate below the right corner
-            if (find(newitemL) != null || find(newitemR) != null) break; //using find to check if it is null or not?
-            item.setLocation(x, y);*/
                 workingpanel.repaint();
 
-                try {Thread.sleep(10);} catch (Exception e) { }
+                try {Thread.sleep(20);} catch (Exception e) { }
             }
-            if(fish.getFishy()==620){
-                System.out.println("Gotcha");
-                workingpanel.money +=100;
-                workingpanel.label.setText(workingpanel.score+workingpanel.money);
+            if(fish.getFishy()>600 && fish.getFishx() < 155){
+                workingpanel.getFishlist().remove(fish); //remove that fish
+                workingpanel.repaint();
             }
-
         }
     }
 
-
-          //  workingpanel.label.setText(workingpanel.score+workingpanel.money);
     public void catching(EasyFish f) {
 
             MoveLeft animX = new MoveLeft(f);
@@ -127,4 +104,3 @@ public class GameMouseListener extends MouseAdapter {
     }
 
 }
-

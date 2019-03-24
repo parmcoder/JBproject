@@ -1,5 +1,7 @@
 package Menu;
 
+import Ending.Bloody;
+import Ending.GameOver;
 import GameLauncher.*;
 import Levels.*;
 import javax.swing.*;
@@ -8,14 +10,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 
-public class panel_1 {
+public class panel_1{
         JPanel mainpane = new JPanel();
         JPanel gamepane = new JPanel();
         JPanel menupane = new JPanel();
 
+        //using this for ending
 
         JButton newgame = new JButton("NEW GAME");
         JButton GotoMenu = new JButton( "Back to menu");
+        JButton EndtoMenu = new JButton( "Continue?");
+        JButton Endtest = new JButton("You lose");
+
 
         gamestarted gamepanel = new gamestarted();
 
@@ -37,7 +43,11 @@ public class panel_1 {
 
                 cl.show(panestorage, "menupane");
                 GotoMenu.setBounds(1000, 700, 200, 50);
-             //   JButton loadgame = new JButton("LOAD GAME");
+
+                Endtest.setBounds(1000, 20, 200, 50);
+                Endtest.setFont(new Font("Arial", Font.PLAIN, 22));
+
+                //   JButton loadgame = new JButton("LOAD GAME");
            //     JButton help = new JButton("HELP");
 
                 //button.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -49,8 +59,10 @@ public class panel_1 {
                 menupane.setLayout(new GridBagLayout());
                 menupane.setBackground(Color.BLACK);
 
+
                 newgame.addActionListener(new PanelListener1());
                 GotoMenu.addActionListener(new PanelListener2());
+                EndtoMenu.addActionListener(new PanelListener3());
 
 
                 //  loadgame.addActionListener(new PanelListener1());
@@ -66,6 +78,8 @@ public class panel_1 {
                 c.ipady = 60; // increases components height by 10 pixel
                 menupane.add(newgame, c); // constraints passed in
 
+               // endingpane.add(EndtoMenu, c);
+
                 c.ipadx = 280;
                 c.gridy = 1; // row 2
              //   menupane.add(loadgame, c);
@@ -75,6 +89,7 @@ public class panel_1 {
             //    menupane.add(help, c);
 
                 gamepane.add(GotoMenu);
+
                 return mainpane;
         }
 
@@ -93,6 +108,22 @@ public class panel_1 {
                         newgame.setText("CONTINUE");
                 }
         }
+
+        class PanelListener3 implements ActionListener{
+                public void actionPerformed(ActionEvent event){
+                        cl.show(panestorage,"menupane");
+                        System.out.println("clicked");
+                        newgame.setText("NEW GAME");
+                        gamepane.removeAll();
+                        gamepane.revalidate();
+                        gamepane.repaint();
+
+                }
+        }
+
+
+
+
 
 
 }

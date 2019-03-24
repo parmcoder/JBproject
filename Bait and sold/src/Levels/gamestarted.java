@@ -1,33 +1,17 @@
 package Levels;
-
-import Fishes.EasyFish;
-
 import javax.swing.*;
-import java.awt.*;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Timer;
 
 public class gamestarted {
 
     DrawPanel gamedraw = new DrawPanel();
-    //JPanel idle = new JPanel();
-    //CardLayout layout = new CardLayout();
-    //JButton action = new JButton("Click to Bait");
-    /*public JPanel gamego(){
-        idle.setLayout(layout);
-        idle.add(BorderLayout.SOUTH, action);
-        idle.add(BorderLayout.CENTER, gamedraw);
-
-        return idle;
-    }*/
+    JPanel test = new JPanel();
     GameMouseListener clicker = new GameMouseListener(gamedraw); //added mouselistener for this panel
 
-    public DrawPanel getGamedraw(){
+    public JPanel getGamedraw(){ //trying JPanel
         gamedraw.addMouseListener(clicker);
-        gamedraw.setLayout(null);
-        gamedraw.go();
-        return gamedraw;
+        test = gamedraw.go();
+        return test;
     }
+
 
 }
