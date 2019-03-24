@@ -1,6 +1,6 @@
 package Levels;
 
-import Database.Datapanel;
+import Database.*;
 import Ending.GameOver;
 import Fishes.EasyFish;
 
@@ -24,6 +24,7 @@ public class DrawPanel extends JPanel {
 
   //  Datapanel savescore = new Datapanel();
   //  JPanel data = sa
+    public SaveData saver = new SaveData();
 
     public int timer = 80;
     public int endcounter = 0;
@@ -140,6 +141,11 @@ public class DrawPanel extends JPanel {
             if(game.money > 10){
             cl.show(editing, "goodending");}
             else{cl.show(editing, "badending");}
+            try {
+                saver.save(player.getText(), money);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
             System.out.println(player.getText()+money);
         }
