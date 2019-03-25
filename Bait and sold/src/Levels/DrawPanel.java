@@ -19,8 +19,8 @@ public class DrawPanel extends JPanel {
     CardLayout cl = new CardLayout();
 
     GameOver ending = new GameOver();
-    JPanel badending = ending.gameover();
-    JPanel goodending = ending.gamewin();
+    JPanel badending = new JPanel();
+    JPanel goodending = new JPanel();
 
   //  Datapanel savescore = new Datapanel();
   //  JPanel data = sa
@@ -140,11 +140,15 @@ public class DrawPanel extends JPanel {
     class GototheEndListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             // if{fishlis
-            editing.add(badending, "badending");
-            editing.add(goodending, "goodending");
+
             if(game.money > 10){
-            cl.show(editing, "goodending");}
-            else{cl.show(editing, "badending");}
+                goodending = ending.gamewin();
+                editing.add(goodending, "goodending");
+                cl.show(editing, "goodending");}
+            else{
+                badending = ending.gameover();
+                editing.add(badending, "badending");
+                cl.show(editing, "badending");}
             try {
                 saver.save(player.getText(), money);
             } catch (ClassNotFoundException e) {
