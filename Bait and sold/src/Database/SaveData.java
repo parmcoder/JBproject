@@ -24,10 +24,10 @@ public class SaveData {
 
             statement.setQueryTimeout(30);
 
-            statement.executeUpdate("DROP TABLE IF EXISTS highscore");
+            //statement.executeUpdate("DROP TABLE IF EXISTS highscore");
+            //statement.executeUpdate("CREATE TABLE highscore (player_name TEXT, score INTEGER )");
 
-            statement.executeUpdate("CREATE TABLE highscore (player_name TEXT, score INTEGER )");
-            System.out.println(update);
+            //System.out.println(update);
             statement.executeUpdate(update);
 
         } catch (SQLException e) {

@@ -1,14 +1,11 @@
 package Menu;
 
-import Ending.Bloody;
-import Ending.GameOver;
-import GameLauncher.*;
+import Database.Datapanel;
 import Levels.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
 
 public class panel_1{
         JPanel mainpane = new JPanel();
@@ -21,9 +18,11 @@ public class panel_1{
         JButton GotoMenu = new JButton( "Back to menu");
         JButton EndtoMenu = new JButton( "Continue?");
         JButton Endtest = new JButton("You lose");
+        JButton Scoreboard = new JButton("Scoreboard");
 
 
         gamestarted gamepanel = new gamestarted();
+        Datapanel topthree = new Datapanel();
 
        // JPanel loadpane = new JPanel();
       //  JPanel helppane = new JPanel();
@@ -40,6 +39,7 @@ public class panel_1{
 
                 panestorage.add(gamepane, "gamepane");
                 panestorage.add(menupane, "menupane");
+                panestorage.add(topthree, "topthree");
 
                 cl.show(panestorage, "menupane");
                 GotoMenu.setBounds(1000, 700, 200, 50);
@@ -53,7 +53,7 @@ public class panel_1{
                 //button.setFont(new Font("Arial", Font.PLAIN, 40));
 
                 newgame.setFont(new Font("Arial", Font.PLAIN, 28));
-            //    loadgame.setFont(new Font("Arial", Font.PLAIN, 28));
+                Scoreboard.setFont(new Font("Arial", Font.PLAIN, 28));
             //    help.setFont(new Font("Arial", Font.PLAIN, 28));
 
                 menupane.setLayout(new GridBagLayout());
@@ -63,6 +63,7 @@ public class panel_1{
                 newgame.addActionListener(new PanelListener1());
                 GotoMenu.addActionListener(new PanelListener2());
                 EndtoMenu.addActionListener(new PanelListener3());
+                Scoreboard.addActionListener(new PanelListener4());
 
 
                 //  loadgame.addActionListener(new PanelListener1());
@@ -74,21 +75,22 @@ public class panel_1{
                 c.insets = new Insets(3, 3, 3, 3); // insets for all components - margin
                 c.gridx = 0; // column 0
                 c.gridy = 0; // row 0
-                c.ipadx = 290; // increases components width by 10 pixels (two sides)
-                c.ipady = 60; // increases components height by 10 pixel
+                c.ipadx = 300; // increases components width by 10 pixels (two sides)
+                c.ipady = 80; // increases components height by 10 pixel
                 menupane.add(newgame, c); // constraints passed in
 
                // endingpane.add(EndtoMenu, c);
 
-                c.ipadx = 280;
+                c.ipadx = 300;
                 c.gridy = 1; // row 2
-             //   menupane.add(loadgame, c);
+                menupane.add(Scoreboard, c);
+                gamepane.add(EndtoMenu);
 
-                c.ipadx = 380;
-                c.gridy = 2; // row 3
+             //   c.ipadx = 380;
+             //   c.gridy = 2; // row 3
             //    menupane.add(help, c);
 
-                gamepane.add(GotoMenu);
+                topthree.add(GotoMenu);
 
                 return mainpane;
         }
@@ -96,7 +98,7 @@ public class panel_1{
         class PanelListener1 implements ActionListener{
                 public void actionPerformed(ActionEvent event){
                         cl.show(panestorage,"gamepane");
-                        System.out.println("clicked");
+                       // System.out.println("clicked");
 
                 }
         }
@@ -104,23 +106,33 @@ public class panel_1{
         class PanelListener2 implements ActionListener{
                 public void actionPerformed(ActionEvent event){
                         cl.show(panestorage,"menupane");
-                        System.out.println("clicked");
-                        newgame.setText("CONTINUE");
+                      //  System.out.println("clicked");
                 }
         }
 
         class PanelListener3 implements ActionListener{
                 public void actionPerformed(ActionEvent event){
                         cl.show(panestorage,"menupane");
-                        System.out.println("clicked");
+                        //System.out.println("clicked");
                         newgame.setText("NEW GAME");
                         gamepane.removeAll();
                         gamepane.revalidate();
                         gamepane.repaint();
 
                 }
-        }
 
+        }
+        class PanelListener4 implements ActionListener{
+                public void actionPerformed(ActionEvent event){
+                        cl.show(panestorage,"topthree");
+                        try {
+                                topthree.adds();
+                        } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                        }
+                        System.out.println("clicked");
+                }
+        }
 
 
 

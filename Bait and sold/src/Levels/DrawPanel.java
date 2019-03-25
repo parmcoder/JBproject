@@ -82,8 +82,6 @@ public class DrawPanel extends JPanel {
 
         editing.setLayout(cl);
         editing.add(game, "thispane");
-        editing.add(badending, "badending");
-        editing.add(goodending, "goodending");
 
         cl.show(editing, "thispane");
 
@@ -118,13 +116,17 @@ public class DrawPanel extends JPanel {
         game.add(fishtime);
         game.add(label);
         game.add(Time);
-        g.drawImage(image, 100, 600, this);
+
         if(timer < 1){
+            Thread.currentThread().interrupted();
             game.removeim();
             game.removeAll();
             fishlist.removeAll(fishlist);
             game.add(player);
             game.add(SaveDB);
+
+        }else{
+            g.drawImage(image, 100, 600, this);
         }
         for (EasyFish fish : fishlist) {
             fish.paintComponent(g);
@@ -138,6 +140,8 @@ public class DrawPanel extends JPanel {
     class GototheEndListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             // if{fishlis
+            editing.add(badending, "badending");
+            editing.add(goodending, "goodending");
             if(game.money > 10){
             cl.show(editing, "goodending");}
             else{cl.show(editing, "badending");}
@@ -169,6 +173,7 @@ public class DrawPanel extends JPanel {
                 game.repaint();
             } else {
                 timer-=12;
+                game.repaint();
             }
         }
 

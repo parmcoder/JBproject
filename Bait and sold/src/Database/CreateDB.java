@@ -20,12 +20,8 @@ public class CreateDB {
             statement.setQueryTimeout(30);
 
             statement.executeUpdate("DROP TABLE IF EXISTS highscore");
+            statement.executeUpdate("CREATE TABLE highscore (player_name TEXT, score INTEGER )");
 
-            statement.executeUpdate("CREATE TABLE highscore (id INTEGER, first_name TEXT, last_name TEXT, major TEXT, cgpa FLOAT)");
-
-            statement.executeUpdate("INSERT INTO highscore VALUES(6001234, 'Ted', 'Henry', 'Computer Science', 3.67)");
-            statement.executeUpdate("INSERT INTO highscore VALUES(6001235, 'John', 'Smith', 'Chemistry', 3.78)");
-            statement.executeUpdate("INSERT INTO highscore VALUES(6001236, 'Jane', 'Johnson', 'Physcs', 3.89)");
         }
         catch(SQLException e){
             System.err.println(e.getMessage());
