@@ -12,6 +12,8 @@ public class EasyFish {
     private int YofFish = 0;
     private Random ran = new Random();
     private int Sensitivity = ran.nextInt(10);
+    private int special = 0;
+    private Boolean Buyable = true;
 
     Boolean canmove = true;
     ImageObserver position = new ImageObserver() {
@@ -34,6 +36,17 @@ public class EasyFish {
         return this.XofFish;
     }
 
+    public boolean isFishsuper(){
+        if(this.special == 1){return true;}
+        else{return false;}
+
+    }
+
+    public void supermode(){this.special =1; }
+
+    public void setBought(){this.Buyable = false;}
+    public Boolean isBuyable(){return this.Buyable;}
+
     public void setFishx(int i)
     {
         this.XofFish = i;
@@ -50,9 +63,17 @@ public class EasyFish {
 
     public void caught(){
         this.canmove = false;
+        if(this.isFishsuper()){supermove();}
     }
     public void caught(EasyFish f){
         f.canmove = false;
+        if(f.isFishsuper()){supermove();}
+    }
+    public void supermove(){
+        this.canmove = true;
+    }
+    public void supercaught(){
+        this.canmove = false;
     }
 
     public int getFishy(){
@@ -61,7 +82,7 @@ public class EasyFish {
 
     public void paintComponent(Graphics g) // this will be called automatically
     {
-        Image image = new ImageIcon("Pic_lib/kisspng-goldfish-real-fish-png.png").getImage();
+        Image image = new ImageIcon("Pic_lib/gigantic-cartoons-of-fish-derp-by-fercho262-on-deviantart-1024x532.png").getImage();
 
         // Image image = new ImageIcon("/home/parmcoder/gjbfish/JBproject/Bait and sold/src/unshi.jpg").getImage();
         g.drawImage(image, getFishx(), getFishy(), position);

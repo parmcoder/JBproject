@@ -3,6 +3,7 @@ package Levels;
 import Database.*;
 import Ending.GameOver;
 import Fishes.EasyFish;
+import Fishes.SuperFish;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +28,7 @@ public class DrawPanel extends JPanel {
     public SaveData saver = new SaveData();
 
     public int timer = 80;
-    public int endcounter = 0;
+    int superspawn = 0;
     String timestring = "Time left : ";
     JLabel Time = new JLabel(timestring+timer+" seconds");
 
@@ -45,6 +46,8 @@ public class DrawPanel extends JPanel {
 
     Image image = new ImageIcon("Pic_lib/Bucket.png").getImage();
 
+    public Boolean Finish = false;
+
     private ArrayList<EasyFish> fishlist = new ArrayList<>();
 
     public ArrayList<EasyFish> getFishlist(){
@@ -61,21 +64,29 @@ public class DrawPanel extends JPanel {
 
         for (int i = 0; i < 11; i++) {
             int x = (int) (175+Math.random() * 1000);
-            int y = (int) (Math.random() * 500);
+            int y = (int) (100+Math.random() * 400);
 
             fishlist.add(new EasyFish(x, y));
         }
 
-        for (int i = 0; i < 10; i++) {
+        if(superspawn>2) {
+
+            for (int i = 0; i < superspawn; i++) {
+                int x = (int) (400 + Math.random() * 200);
+                int y = 400;
+                fishlist.add(new SuperFish(x, y));
+            }
+        }
+        /*for (int i = 0; i < 10; i++) {
             for (int j = i; j < (10 - i); i++) {
                 if (fishlist.get(j).getFishx() == fishlist.get(j + 1).getFishx()) {
                     int newfishx = fishlist.get(j).getFishx();
                     fishlist.get(j).setFishx(newfishx += 100);
                 }
             }
-        }
-
+        }*/
         return fishlist;
+
     }
 
     public JPanel go() {
@@ -118,7 +129,7 @@ public class DrawPanel extends JPanel {
         game.add(Time);
 
         if(timer < 1){
-            Thread.currentThread().interrupted();
+            Finish = true;
             game.removeim();
             game.removeAll();
             fishlist.removeAll(fishlist);
@@ -164,6 +175,7 @@ public class DrawPanel extends JPanel {
         private int counter = 0;
         public void actionPerformed(ActionEvent event) {
             // if{fishlis
+            superspawn++;
             if(counter == 0){
                 countdown();
                 game.repaint();

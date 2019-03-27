@@ -1,6 +1,7 @@
 package Levels;
 
 import Fishes.EasyFish;
+import Fishes.SuperFish;
 
 import java.awt.event.*;
 import java.awt.geom.Point2D;
@@ -13,6 +14,7 @@ public class GameMouseListener extends MouseAdapter {
     private Point2D current;
     private EasyFish fishy;
     public MoveLeft m;
+    private SuperFish SuperFish;
 
     public EasyFish find(Point2D onclick) { //we use this method to find fish, similar to find Point2D
         for (EasyFish showing : workingpanel.getFishlist()) {
@@ -31,13 +33,19 @@ public class GameMouseListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        remover = workingpanel.getFishlist(); //time to remove the dot and count to get score
+        remover = workingpanel.getFishlist(); //time to catch the fish and count to get score
         current = e.getPoint();
         EasyFish the_fish = find(current);
         if(the_fish != null){
             catching(the_fish);
-            for(EasyFish f:remover){f.caught();}
-            workingpanel.money +=10;
+            if(the_fish.isFishsuper()){workingpanel.money +=1000;}
+            for(EasyFish f:remover){
+                f.caught();
+            }
+            if(the_fish.isBuyable()){
+                the_fish.setBought();
+                workingpanel.money +=10;
+            }
             workingpanel.label.setText(workingpanel.score+workingpanel.money);
             workingpanel.repaint();
             //remover.remove(the_fish);
@@ -54,17 +62,22 @@ public class GameMouseListener extends MouseAdapter {
             fish = fishpivot;
         }
         public synchronized void run() {
+            fish.supercaught();
             while (fish.getFishx() >= 140) {
                 int newx = fish.getFishx()-1;
                 fish.setFishx(newx);
                 workingpanel.repaint();
                 if(fish==null){break;}
+                if(workingpanel.Finish){Thread.interrupted();}
 
                 try {Thread.sleep(8);} catch (Exception e) { }
             }
+
             if(fish.getFishy()>600 && fish.getFishx() < 155){
                 workingpanel.getFishlist().remove(fish); //remove that fish\
                 workingpanel.repaint();
+
+
             }
             //(fish == null){Thread.interrupted();}
 
@@ -87,11 +100,13 @@ public class GameMouseListener extends MouseAdapter {
                 fish.setFishy(newy);
                 workingpanel.repaint();
 
+                if(workingpanel.Finish){Thread.interrupted();}
                 try {Thread.sleep(25);} catch (Exception e) { }
             }
             if(fish.getFishy()>600 && fish.getFishx() < 155){
                 workingpanel.getFishlist().remove(fish); //remove that fish
                 workingpanel.repaint();
+
             }
             //if(fish == null){Thread.interrupted();}
 
@@ -100,6 +115,7 @@ public class GameMouseListener extends MouseAdapter {
 
     public void catching(EasyFish f) {
             f.caught(f);
+            if(f.equals(SuperFish)){workingpanel.money += 100;}
             MoveLeft animX = new MoveLeft(f);
             MoveDown animY = new MoveDown(f);
             Thread tOne = new Thread(animX);
