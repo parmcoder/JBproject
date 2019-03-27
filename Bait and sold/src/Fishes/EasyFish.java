@@ -26,9 +26,12 @@ public class EasyFish {
     public EasyFish(int x, int y){
         this.XofFish = x;
         this.YofFish = y;
+
         Splashing splashing = new Splashing(this);
         Thread movable = new Thread(splashing);
-        movable.start(); //fix here
+        movable.start();
+        //movable.start(); }//fix here
+
 
     }
 
@@ -105,7 +108,7 @@ public class EasyFish {
             fish = f;
         }
         public void run(){
-            while(fish.canmove){
+            while(fish.canmove && (isFishsuper()==false)){
 
                 x+=deltax;
                 y+=deltay;

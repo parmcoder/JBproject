@@ -37,8 +37,12 @@ public class GameMouseListener extends MouseAdapter {
         current = e.getPoint();
         EasyFish the_fish = find(current);
         if(the_fish != null){
+            if(the_fish.isFishsuper()&&the_fish.isBuyable()){
+                the_fish.supercaught();
+                the_fish.setBought();
+                workingpanel.money +=1000;
+            }
             catching(the_fish);
-            if(the_fish.isFishsuper()){workingpanel.money +=1000;}
             for(EasyFish f:remover){
                 f.caught();
             }
@@ -67,8 +71,7 @@ public class GameMouseListener extends MouseAdapter {
                 int newx = fish.getFishx()-1;
                 fish.setFishx(newx);
                 workingpanel.repaint();
-                if(fish==null){break;}
-                if(workingpanel.Finish){Thread.interrupted();}
+                if(fish==null || workingpanel.Finish){Thread.interrupted();}
 
                 try {Thread.sleep(8);} catch (Exception e) { }
             }
@@ -100,7 +103,7 @@ public class GameMouseListener extends MouseAdapter {
                 fish.setFishy(newy);
                 workingpanel.repaint();
 
-                if(workingpanel.Finish){Thread.interrupted();}
+                if(fish==null || workingpanel.Finish){Thread.interrupted();}
                 try {Thread.sleep(25);} catch (Exception e) { }
             }
             if(fish.getFishy()>600 && fish.getFishx() < 155){
@@ -115,7 +118,6 @@ public class GameMouseListener extends MouseAdapter {
 
     public void catching(EasyFish f) {
             f.caught(f);
-            if(f.equals(SuperFish)){workingpanel.money += 100;}
             MoveLeft animX = new MoveLeft(f);
             MoveDown animY = new MoveDown(f);
             Thread tOne = new Thread(animX);

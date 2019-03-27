@@ -5,14 +5,14 @@ import java.awt.*;
 
 
 public class SuperFish extends EasyFish {
-    private int Sensitivity = 20;
 
     public SuperFish(int x, int y) {
         super(x, y);
         supermode();
         SuperSplashing splashing = new SuperSplashing(this);
-        Thread movable = new Thread(splashing);
-        movable.start(); //fix here
+        Thread movable2 = new Thread(splashing);
+        movable2.start(); //fix here
+
     }
 
 
@@ -30,26 +30,37 @@ public class SuperFish extends EasyFish {
     class SuperSplashing implements Runnable {
         int x;
         int y;
-        SuperFish fish;
+        private SuperFish fish;
         int deltax;
         int deltay;
 
         SuperSplashing(SuperFish f) {
             x = f.getFishx();
             y = f.getFishy();
-            deltax = f.Sensitivity;
-            deltay = f.Sensitivity;
-            fish = f;
+            deltax = 20;
+            deltay = 10;
+            this.fish = f;
         }
 
         public void run() {
-            while (fish.canmove) {
-                for(int i = 0; i<3; i++){
+            while (this.fish.canmove && (x<1100) && (y>100)) {
+                y -= deltay;
+                x += deltax;
+                fish.setFishLocation(x, y);
+
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                }
+
+
+
+                /*   for(int i = 0; i<3; i++){
                     x += deltax;
                     fish.setFishLocation(x, y);
 
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                     }
                 }
@@ -57,7 +68,7 @@ public class SuperFish extends EasyFish {
                     y += deltay;
                     fish.setFishLocation(x, y);
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                     }
                 }
@@ -67,7 +78,7 @@ public class SuperFish extends EasyFish {
                     fish.setFishLocation(x, y);
 
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                     }
                 }
@@ -77,11 +88,11 @@ public class SuperFish extends EasyFish {
                     fish.setFishLocation(x, y);
 
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                    }
+                    }*/
                 }
             }
         }
     }
-}
+//}
