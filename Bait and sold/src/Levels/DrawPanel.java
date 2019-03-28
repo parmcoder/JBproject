@@ -4,6 +4,8 @@ import Database.*;
 import Ending.GameOver;
 import Fishes.EasyFish;
 import Fishes.SuperFish;
+import Sounds.SfxPlayer;
+import Sounds.SoundPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,17 +44,26 @@ public class DrawPanel extends JPanel {
     int money = 0;
    // haha money talks, my game will use money to decide who is the richest
 
-    JLabel label = new JLabel(score+money); //I wanna add this to show the score
+    JLabel label = new JLabel(score+money);
+    //I wanna add this to show the score
 
-    Image image = new ImageIcon("Pic_lib/Bucket.png").getImage(); //I can use vicky's head instead...
+    Image image = new ImageIcon("Pic_lib/Bucket.png").getImage();
+    //I can use vicky's head instead... but a bucket can keep fishes inside better
+    Image gamebg = new ImageIcon("Pic_lib/gamebg.jpg").getImage(); //I can use vicky's head instead...
 
-    public Boolean Finish = false; //Boolean is good, when the condition is not set
 
-    private ArrayList<EasyFish> fishlist = new ArrayList<>(); // the panel need access to change the fish
+    public Boolean Finish = false;
+    //Boolean is good, when the condition is not set
+
+    private ArrayList<EasyFish> fishlist = new ArrayList<>();
+    // the panel need access to change the fish
 
     public ArrayList<EasyFish> getFishlist(){
         return this.fishlist;
-    } //use this to get the fishes in the panel
+    }
+    //use this to get the fishes in the panel
+
+    SoundPlayer bgm = new SoundPlayer("music_lib/gameost.wav");
 
     @Override
     public void setLayout(LayoutManager mgr) {
@@ -136,7 +147,8 @@ public class DrawPanel extends JPanel {
 
         }else
             {
-            g.drawImage(image, 100, 600, this); //keep drawing bucket... don't wanna remove it
+                g.drawImage(gamebg, 0,0, this);
+                g.drawImage(image, 100, 600, this); //keep drawing bucket... don't wanna remove it
             }
         try
         {
@@ -156,7 +168,7 @@ public class DrawPanel extends JPanel {
     {
         public void actionPerformed(ActionEvent event)
         {
-
+            bgm.stop();
             if(game.money > 110)
             {
                 goodending = ending.gamewin();
@@ -185,6 +197,8 @@ public class DrawPanel extends JPanel {
         private int counter = 0;
         public void actionPerformed(ActionEvent event)
         {
+
+
             if(counter == 0)
             {
                 countdown();
@@ -194,12 +208,19 @@ public class DrawPanel extends JPanel {
             if (fishlist.size() == 0)
             {
                 fishlist = randomplace();
-                if(counter > 1){timer+=10;}
+                if(counter == 1){timer+=10;}
+                SfxPlayer yeahsfx = new SfxPlayer("music_lib/Yeah.wav");
+                Thread YEAH = new Thread(yeahsfx);
+                YEAH.start();
                 superspawn++; //condition for winning, clear and catch super fishes
                 game.repaint();
             } else {
-                timer-=20; //this is the penalty for greedy people who try to get more fishes
+                timer-=20;
+                Time.setForeground(Color.RED);//this is the penalty for greedy people who try to get more fishes
                 //catch what you baited first
+                SfxPlayer sfx = new SfxPlayer("music_lib/pew.wav");
+                Thread Pew = new Thread(sfx);
+                Pew.start(); //Pew! you are greedy, got time deducted
                 game.repaint();
             }
         }
@@ -218,6 +239,7 @@ public class DrawPanel extends JPanel {
                     timer-=1;
                     centisec=0;
                 }
+                Time.setForeground(Color.WHITE);
                 Time.setText(timestring+timer+" seconds"); //need to set it again before repaint
                 Toolkit.getDefaultToolkit().sync(); //I found that this will make SWING run smoothly
                 repaint();
@@ -230,8 +252,10 @@ public class DrawPanel extends JPanel {
     public void countdown()
     { //I want to create a timer, by using thread
         timerunner cd = new timerunner();
+        Thread bgmthread = new Thread(bgm);
         Thread timetoend = new Thread(cd);
         timetoend.start();
+        bgmthread.start();
     }
 }
 

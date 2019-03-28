@@ -6,7 +6,6 @@ import java.awt.*;
 
 public class SuperFish extends EasyFish
 {
-
     public SuperFish(int x, int y)
     {
         super(x, y);
@@ -14,10 +13,7 @@ public class SuperFish extends EasyFish
         SuperSplashing splashing = new SuperSplashing(this); //special thread for super fish
         Thread movable2 = new Thread(splashing);
         movable2.start(); //it will try to runaway from the bucket
-
     }
-
-
 
     public void paintComponent(Graphics g) // this will be called automatically
     {
@@ -43,16 +39,16 @@ public class SuperFish extends EasyFish
         }
 
         public void run() {
-            while (isFishcanmove() && (x<1100) && (y>100))
+            while (fish.isFishcanmove() && (x<1100) && (y>100))
             {
                 y -= deltay;
                 x += deltax;
                 fish.setFishLocation(x, y);
-
                 try
                 {
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {}
+
 
             }
         }

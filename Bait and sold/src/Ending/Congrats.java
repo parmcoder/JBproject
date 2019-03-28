@@ -1,5 +1,7 @@
 package Ending;
 
+import Sounds.SoundPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -10,24 +12,28 @@ import java.util.List;
 public class Congrats extends JPanel {
     private List<Point2D> spillcolor = new ArrayList<>();
     JLabel Yeah = new JLabel("Game over, well played");
+    Image nicebg = new ImageIcon("Pic_lib/good-end.jpg").getImage(); //I can use vicky's head instead...
+    SoundPlayer bgm = new SoundPlayer("music_lib/goodend.wav");
 
     public void decorate()
     {
       this.setLayout(null);
-      Yeah.setBounds(300, 200, 800, 200);
+      Yeah.setBounds(400, 200, 800, 200);
       Yeah.setFont(new Font("Arial", Font.BOLD, 60));
       this.add(Yeah);
 
       randomplace manydots = new randomplace();
       Thread a = new Thread(manydots);
+      Thread b = new Thread(bgm);
       a.start();
+      b.start();
     }
 
 
     public void paintComponent(Graphics g) // this will be called automatically
     {
         super.paintComponent(g);
-        setBackground(Color.WHITE);
+        g.drawImage(nicebg,0,0,this);
 
         for (Point2D bloodpos : spillcolor) {
             int red = (int) (Math.random() * 255);

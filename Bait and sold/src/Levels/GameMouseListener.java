@@ -1,6 +1,9 @@
 package Levels;
 
 import Fishes.EasyFish;
+import Sounds.SfxPlayer;
+
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class GameMouseListener extends MouseAdapter
     { // trick to make it work for extends JPanel class
         super();
         this.workingpanel = p;
+        workingpanel.addMouseMotionListener(new MouseMotionHandler());
     }
 
     @Override
@@ -38,19 +42,22 @@ public class GameMouseListener extends MouseAdapter
 
         if(the_fish != null)
         { //in case we have the fish
+            for(EasyFish f:remover)
+            {
+                if(f.isFishsuper()){}
+                else{f.caught(f);}
+            }
+
             if(the_fish.isFishsuper()&&the_fish.isBuyable())
             { //first time you get that super fish
-                the_fish.supercaught();
+                the_fish.supercaught(the_fish);
                 the_fish.setBought(); //spamming won't let you gain more money
                 workingpanel.money +=1000;
+
             }
 
             catching(the_fish);//this will make the fish move to the bucket
 
-            for(EasyFish f:remover)
-            {
-                f.caught(f);
-            }
             if(the_fish.isBuyable())
             {
                 the_fish.setBought();
@@ -60,6 +67,19 @@ public class GameMouseListener extends MouseAdapter
             workingpanel.repaint();
         }
         workingpanel.repaint();
+    }
+    private class MouseMotionHandler implements MouseMotionListener {
+        @Override
+        public void mouseDragged(MouseEvent mouseEvent) {
+
+        }
+
+        public void mouseMoved(MouseEvent event) {
+            // set the mouse cursor to cross hairs if it is inside
+            // a image
+            if (find(event.getPoint()) == null) workingpanel.setCursor(Cursor.getDefaultCursor());
+            else workingpanel.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        }
     }
 
     //HERE ARE THE THREADS
@@ -72,7 +92,6 @@ public class GameMouseListener extends MouseAdapter
         }
         public synchronized void run()
         {
-            fish.supercaught();
             while (fish.getFishx() >= 140)
             {
                 int newx = fish.getFishx()-1;
@@ -82,7 +101,6 @@ public class GameMouseListener extends MouseAdapter
 
                 try {Thread.sleep(8);} catch (Exception e) { }
             }
-
             if(fish.getFishy()>600 && fish.getFishx() < 155){
                 workingpanel.getFishlist().remove(fish); //remove that fish\
                 workingpanel.repaint();
@@ -100,6 +118,7 @@ public class GameMouseListener extends MouseAdapter
         }
         public synchronized void run()
         {
+            while(true){
             while (fish.getFishy() <= 620)
             {
                 if(fish.getFishx() == 139){newy = fish.getFishy()+8;}
@@ -111,23 +130,24 @@ public class GameMouseListener extends MouseAdapter
                 try {Thread.sleep(25);} catch (Exception e) { }
             }
 
+
             if(fish.getFishy()>600 && fish.getFishx() < 155){
                 workingpanel.getFishlist().remove(fish); //remove that fish
                 workingpanel.repaint();
+                break;
+            }
             }
         }
     }
 
     public void catching(EasyFish f)
     {
-            f.caught(f);
+            f.supercaught(f);
             MoveLeft animX = new MoveLeft(f);
             MoveDown animY = new MoveDown(f);
             Thread tOne = new Thread(animX);
             Thread tTwo = new Thread(animY);
             tOne.start();
             tTwo.start();
-
     }
-
 }

@@ -14,7 +14,7 @@ public class EasyFish {
     private int Sensitivity = ran.nextInt(10)+1;
     private int special = 0;
     private Boolean Buyable = true;
-    private Boolean canmove = true;
+    Boolean canmove = true;
     ImageObserver position = new ImageObserver() {
         @Override
         public boolean imageUpdate(Image image, int i, int i1, int i2, int i3, int i4) {
@@ -78,7 +78,7 @@ public class EasyFish {
 
     public void supermode(){this.special =1; }
     public void supermove(){this.canmove = true;}
-    public void supercaught(){this.canmove = false;}
+    public void supercaught(EasyFish f){f.canmove = false;}
 
     public void paintComponent(Graphics g) // this will be called in the panel
     {

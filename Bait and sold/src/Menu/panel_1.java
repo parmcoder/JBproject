@@ -2,15 +2,17 @@ package Menu;
 
 import Database.Datapanel;
 import Levels.*;
+import Sounds.SoundPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class panel_1{
+public class panel_1 extends JPanel{
         JPanel mainpane = new JPanel();
         JPanel gamepane = new JPanel();
-        JPanel menupane = new JPanel();
+        JPanel menupane = new bg();
 
         JButton newgame = new JButton("NEW GAME");
         JButton GotoMenu = new JButton( "Back to menu");
@@ -28,9 +30,11 @@ public class panel_1{
         // it will show? mainpane!
         CardLayout cl = new CardLayout(); //layout for the panel to be switchable
 
+        SoundPlayer bgmusic = new SoundPlayer("music_lib/gameost2.wav");
+        Thread player = new Thread(bgmusic);
 
-        public JPanel menu() {
-
+        public JPanel menu() throws Exception{
+                player.start();
                 panestorage.setLayout(cl); //set the layout of that container
                 gamepane = gamepanel.getGamedraw(); //for some reasons, I need to call this method to build game pane
 
@@ -55,7 +59,7 @@ public class panel_1{
                 //Endtest.setFont(new Font("Arial", Font.PLAIN, 22));
 
                 menupane.setLayout(new GridBagLayout()); //when you want to center things in the panel use grid bags
-                menupane.setBackground(Color.BLACK); //add something for BG
+                //menupane.paintComponents(); //add something for BG
 
 
                 newgame.addActionListener(new Showgamepane()); //to change panels mostly check below
@@ -72,16 +76,16 @@ public class panel_1{
 
                 c.insets = new Insets(3, 3, 3, 3); // insets for all components - margin
                 c.gridx = 0; // column 0
-                c.gridy = 0; // row 0
+                c.gridy = 1; // row 0
                 c.ipadx = 300; // increases components width by 300 pixels (two sides)
                 c.ipady = 80; // increases components height by 10 pixel
-                menupane.add(newgame, c); // constraints passed in
+                menupane.add(Scoreboard, c); // constraints passed in
 
                // endingpane.add(EndtoMenu, c);
 
                 c.ipadx = 300;
-                c.gridy = 1; // row 2
-                menupane.add(Scoreboard, c);
+                c.gridy = 0; // row 2
+                menupane.add(newgame, c);
              //   gamepane.add(EndtoMenu);
 
              //   c.ipadx = 380;
@@ -98,6 +102,12 @@ public class panel_1{
                 public void actionPerformed(ActionEvent event)
                 {
                         cl.show(panestorage,"gamepane");
+                        bgmusic.stop();
+                        try {
+
+                        } catch (Exception e) {
+                                e.printStackTrace();
+                        }
                 }
         }
 

@@ -8,31 +8,48 @@ public class Datapanel extends JPanel {
     JLabel second = new JLabel("First runner-up");
     JLabel third = new JLabel("Second runner-up");
 
+    JLabel firstmoney = new JLabel();
+    JLabel secondmoney = new JLabel();
+    JLabel thirdmoney = new JLabel();
+
     JLabel number1 = new JLabel("Boi");
     JLabel number2 = new JLabel("Boi");
     JLabel number3 = new JLabel("Boi");
 
     ShowData data = new ShowData();
 
+    Image highscorebg = new ImageIcon("Pic_lib/highscore.jpg").getImage(); //I can use vicky's head instead...
+
+
     public void adds() throws ClassNotFoundException {
 
-        first.setBounds(550, 100, 500, 50);
+        first.setBounds(550, 110, 500, 50);
         first.setFont(new Font("Arial", Font.PLAIN, 28));
-        number1.setBounds(550, 140, 500, 50);
-        number1.setFont(new Font("Arial", Font.PLAIN, 25));
-        number1.setText(data.show(1));
+        number1.setBounds(550, 140, 500, 60);
+        number1.setFont(new Font("Arial", Font.PLAIN, 22));
+        number1.setText(data.showname(1));
+        firstmoney.setBounds(550, 160, 500, 60);
+        firstmoney.setFont(new Font("Arial", Font.PLAIN, 22));
+        firstmoney.setText("Earned "+data.showmoney(1));
 
-        second.setBounds(200, 450, 500, 50);
-        second.setFont(new Font("Arial", Font.PLAIN, 28));
-        number2.setBounds(200, 490, 500, 50);
-        number2.setFont(new Font("Arial", Font.PLAIN, 25));
-        number2.setText(data.show(2));
 
-        third.setBounds(900, 450, 500, 50);
-        third.setFont(new Font("Arial", Font.PLAIN, 28));
-        number3.setBounds(900, 490, 500, 50);
-        number3.setFont(new Font("Arial", Font.PLAIN, 25));
-        number3.setText(data.show(3));
+        second.setBounds(200, 480, 500, 60);
+        second.setFont(new Font("Arial", Font.PLAIN, 26));
+        number2.setBounds(200, 510, 500, 60);
+        number2.setFont(new Font("Arial", Font.PLAIN, 20));
+        number2.setText(data.showname(2));
+        secondmoney.setBounds(200, 530, 500, 60);
+        secondmoney.setFont(new Font("Arial", Font.PLAIN, 22));
+        secondmoney.setText("Earned "+data.showmoney(2));
+
+        third.setBounds(900, 480, 500, 50);
+        third.setFont(new Font("Arial", Font.PLAIN, 26));
+        number3.setBounds(900, 510, 500, 60);
+        number3.setFont(new Font("Arial", Font.PLAIN, 20));
+        number3.setText(data.showname(3));
+        thirdmoney.setBounds(900, 530, 500, 60);
+        thirdmoney.setFont(new Font("Arial", Font.PLAIN, 22));
+        thirdmoney.setText("Earned "+data.showmoney(3));
 
         this.setBackground(Color.lightGray); //this is what will be added in the scoreboard
         this.setLayout(null);
@@ -42,5 +59,12 @@ public class Datapanel extends JPanel {
         this.add(number1);
         this.add(number2);
         this.add(number3);
+        this.add(firstmoney);
+        this.add(secondmoney);
+        this.add(thirdmoney);
+
+    }
+    public void paintComponent(Graphics g){
+        g.drawImage(highscorebg,0,0,this);
     }
 }
