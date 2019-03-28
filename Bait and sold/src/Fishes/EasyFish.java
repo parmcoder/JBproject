@@ -11,11 +11,10 @@ public class EasyFish {
     private int XofFish = 0;
     private int YofFish = 0;
     private Random ran = new Random();
-    private int Sensitivity = ran.nextInt(10);
+    private int Sensitivity = ran.nextInt(10)+1;
     private int special = 0;
     private Boolean Buyable = true;
-
-    Boolean canmove = true;
+    private Boolean canmove = true;
     ImageObserver position = new ImageObserver() {
         @Override
         public boolean imageUpdate(Image image, int i, int i1, int i2, int i3, int i4) {
@@ -23,32 +22,22 @@ public class EasyFish {
         }
     };
 
-    public EasyFish(int x, int y){
+    public EasyFish(int x, int y)
+    {
         this.XofFish = x;
         this.YofFish = y;
 
         Splashing splashing = new Splashing(this);
         Thread movable = new Thread(splashing);
         movable.start();
-        //movable.start(); }//fix here
-
-
     }
 
     public int getFishx(){
         return this.XofFish;
     }
-
-    public boolean isFishsuper(){
-        if(this.special == 1){return true;}
-        else{return false;}
-
+    public int getFishy(){
+        return this.YofFish;
     }
-
-    public void supermode(){this.special =1; }
-
-    public void setBought(){this.Buyable = false;}
-    public Boolean isBuyable(){return this.Buyable;}
 
     public void setFishx(int i)
     {
@@ -59,75 +48,80 @@ public class EasyFish {
         this.YofFish = i;
     }
 
-    public void setFishLocation(int x, int y){
+    public void setFishLocation(int x, int y)
+    {
         this.XofFish = x;
         this.YofFish = y;
     }
 
-    public void caught(){
+    public void setBought(){this.Buyable = false;}
+
+    public boolean isFishsuper()
+    {
+        if(this.special == 1){return true;}
+        else{return false;}
+
+    }
+    public Boolean isBuyable(){return this.Buyable;}
+    public Boolean isFishcanmove(){return this.canmove;}
+
+    /*public void caught(){ this is my prototype code
         this.canmove = false;
         if(this.isFishsuper()){supermove();}
-    }
-    public void caught(EasyFish f){
+    }*/
+
+    public void caught(EasyFish f)
+    {
         f.canmove = false;
         if(f.isFishsuper()){supermove();}
     }
-    public void supermove(){
-        this.canmove = true;
-    }
-    public void supercaught(){
-        this.canmove = false;
-    }
 
-    public int getFishy(){
-        return this.YofFish;
-    }
+    public void supermode(){this.special =1; }
+    public void supermove(){this.canmove = true;}
+    public void supercaught(){this.canmove = false;}
 
-    public void paintComponent(Graphics g) // this will be called automatically
+    public void paintComponent(Graphics g) // this will be called in the panel
     {
         Image image = new ImageIcon("Pic_lib/gigantic-cartoons-of-fish-derp-by-fercho262-on-deviantart-1024x532.png").getImage();
-
-        // Image image = new ImageIcon("/home/parmcoder/gjbfish/JBproject/Bait and sold/src/unshi.jpg").getImage();
-        g.drawImage(image, getFishx(), getFishy(), position);
-        //g.setColor(Color.BLUE);
-       // g.fillRect(getFishx(),getFishy(),50,50);
+        g.drawImage(image, getFishx(), getFishy(), position); //draw that image there
     }
 
-    class Splashing implements Runnable{
+    class Splashing implements Runnable //how the fish move before being caught
+    {
         int x;
         int y;
         EasyFish fish;
         int deltax;
         int deltay;
 
-        Splashing(EasyFish f){
+        Splashing(EasyFish f)
+        {
             x = f.getFishx();
             y = f.getFishy();
             deltax = f.Sensitivity;
             deltay = f.Sensitivity;
             fish = f;
         }
-        public void run(){
-            while(fish.canmove && (isFishsuper()==false)){
 
+        public void run(){
+            while(isFishcanmove() && (isFishsuper()==false))
+            {
                 x+=deltax;
                 y+=deltay;
                 fish.setFishLocation(x,y);
-
                 try{
-                    Thread.sleep(5);}catch(InterruptedException e){}
+                    Thread.sleep(300);}catch(InterruptedException e){}
+
                 x-=deltax;
                 fish.setFishLocation(x,y);
-
                 try{
-                    Thread.sleep(10);}catch(InterruptedException e){}
+                    Thread.sleep(300);}catch(InterruptedException e){}
+
                 y-=deltay;
                 fish.setFishLocation(x,y);
-
                 try{
-                    Thread.sleep(10);}catch(InterruptedException e){}
+                    Thread.sleep(300);}catch(InterruptedException e){}
             }
         }
     }
-
 }

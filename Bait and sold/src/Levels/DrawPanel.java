@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class DrawPanel extends JPanel {
     //my game runs like menu with buttons and sequences, game-->add to scoreboard --> ending and bad ending for lazies
@@ -20,7 +21,7 @@ public class DrawPanel extends JPanel {
     Container editing = switcher; //store in editing those panels
     CardLayout cl = new CardLayout();
 
-    GameOver ending = new GameOver();
+    GameOver ending = new GameOver(); //the endings will be called later after the game ends
     JPanel badending = new JPanel();
     JPanel goodending = new JPanel();
 
@@ -58,44 +59,40 @@ public class DrawPanel extends JPanel {
         super.setLayout(mgr);
     }
 
-    public ArrayList<EasyFish> randomplace() {
+    public ArrayList<EasyFish> randomplace() //with random, the fishes will spawn separately, or together :)
+    {
         fishlist = new ArrayList<>();
 
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 11; i++)
+        {
             int x = (int) (175+Math.random() * 1000);
             int y = (int) (100+Math.random() * 400); //it will be created within this dimension
 
-            fishlist.add(new EasyFish(x, y));
+            fishlist.add(new EasyFish(x, y)); //yeah, the fish is added and will be drawn in the panel
         }
 
-        if(superspawn>2) {
+        if(superspawn>2)
+        { //after the game goes on the more you can complete the objective super fish will spawn
 
             for (int i = 0; i < superspawn-1; i++) {
                 int x = (int) (400 + Math.random() * 200);
                 int y = 400;
-                fishlist.add(new SuperFish(x, y));
+                fishlist.add(new SuperFish(x, y)); //the super fish will be added
             }
         }
-        /*for (int i = 0; i < 10; i++) {
-            for (int j = i; j < (10 - i); i++) {
-                if (fishlist.get(j).getFishx() == fishlist.get(j + 1).getFishx()) {
-                    int newfishx = fishlist.get(j).getFishx();
-                    fishlist.get(j).setFishx(newfishx += 100);
-                }
-            }
-        }*/
         return fishlist;
 
     }
 
-    public JPanel go() {
+    public JPanel go() //I use this to add things on my panel, since extending won't allow me to add anything
+    {
 
-        editing.setLayout(cl);
-        editing.add(game, "thispane");
+        editing.setLayout(cl); // to store pane and ending pane
+        editing.add(game, "thispane"); //this is the first scene
 
-        cl.show(editing, "thispane");
+        cl.show(editing, "thispane"); //show that first scene
 
-        game.setLayout(null);
+        game.setLayout(null); //on the game pane I want to edit things myself
 
         fishtime.setBounds(1000, 650, 200, 50);
         fishtime.addActionListener(new CreatorListener());
@@ -116,98 +113,122 @@ public class DrawPanel extends JPanel {
         player.setBounds(480, 300, 400, 50);
         player.setFont(new Font("Arial", Font.PLAIN, 16));
 
-        return switcher;
+        return switcher; //return that container, not this panel
     }
 
     public void paintComponent(Graphics g) // this will be called automatically
     {
         super.paintComponent(g); //needed since we're using JPanel extends
-        setBackground(Color.DARK_GRAY);
+
+        setBackground(Color.DARK_GRAY); //allowed to add the BG properly
+
         game.add(fishtime);
         game.add(label);
-        game.add(Time);
+        game.add(Time); //added components
 
-        if(timer < 1){
-            Finish = true;
-            game.removeim();
-            game.removeAll();
+        if(timer < 1){ //time's up
+            Finish = true; //affect events and other loops, stopping them and interrupt
+            game.removeim(); //bye image
+            game.removeAll(); //remove all to get the clean panel
             fishlist.removeAll(fishlist);
             game.add(player);
-            game.add(SaveDB);
+            game.add(SaveDB); //save score
 
-        }else{
-            g.drawImage(image, 100, 600, this);
-        }
-        for (EasyFish fish : fishlist) {
-            fish.paintComponent(g);
-        }
+        }else
+            {
+            g.drawImage(image, 100, 600, this); //keep drawing bucket... don't wanna remove it
+            }
+        try
+        {
+        for (EasyFish fish : fishlist)
+            {
+            fish.paintComponent(g); //in the class, I have describe how will the fishes are drawn
+            }
+        }catch(ConcurrentModificationException e){}//ignore this exception, but we will have it, runtime error :P
     }
 
-    private void removeim() {
+    private void removeim()
+    {
         image = null;
-    }
+    } //here is the method for removing it
 
-    class GototheEndListener implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            // if{fishlis
+    class GototheEndListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
 
-            if(game.money > 10){
+            if(game.money > 110)
+            {
                 goodending = ending.gamewin();
                 editing.add(goodending, "goodending");
-                cl.show(editing, "goodending");}
-            else{
-                badending = ending.gameover();
-                editing.add(badending, "badending");
-                cl.show(editing, "badending");}
-            try {
-                saver.save(player.getText(), money);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                cl.show(editing, "goodending");
             }
+            else
+                {
+                badending = ending.gameover(); //the badending is bad, you must play very bad to get this
+                editing.add(badending, "badending");
+                cl.show(editing, "badending");
+                }
 
+            try
+            {
+                saver.save(player.getText(), money); //save data to database with the name entered in JLabel
+            }
+            catch (ClassNotFoundException e) {e.printStackTrace();}
             System.out.println(player.getText()+money);
         }
 
     }
 
-    class CreatorListener implements ActionListener {
+    class CreatorListener implements ActionListener
+    {
         private int counter = 0;
-        public void actionPerformed(ActionEvent event) {
-            // if{fishlis
-
-            if(counter == 0){
+        public void actionPerformed(ActionEvent event)
+        {
+            if(counter == 0)
+            {
                 countdown();
                 game.repaint();
-                counter = 1;
-
+                counter = 1; //prevent multiple countdown
             }
-            if (fishlist.size() == 0) {
+            if (fishlist.size() == 0)
+            {
                 fishlist = randomplace();
-                if(counter > 1){
-                timer+=10;}
-                counter++;
+                if(counter > 1){timer+=10;}
                 superspawn++; //condition for winning, clear and catch super fishes
                 game.repaint();
             } else {
-                timer-=12;
+                timer-=20; //this is the penalty for greedy people who try to get more fishes
+                //catch what you baited first
                 game.repaint();
             }
         }
 
     }
 
-    class timerunner implements Runnable{
-        public void run(){
-            while(timer>0){
-            timer-=1;
-            Time.setText(timestring+timer+" seconds");
-            repaint();
-            try {Thread.sleep(1000);} catch (Exception e) { }
+    class timerunner implements Runnable
+    {
+        int centisec =0;
+        public void run()
+        {
+            while(timer>0)
+            {
+                if(centisec==10)
+                {
+                    timer-=1;
+                    centisec=0;
+                }
+                Time.setText(timestring+timer+" seconds"); //need to set it again before repaint
+                Toolkit.getDefaultToolkit().sync(); //I found that this will make SWING run smoothly
+                repaint();
+                centisec++;
+                try {Thread.sleep(100);} catch (Exception e) { }
             }
         }
     }
 
-    public void countdown(){
+    public void countdown()
+    { //I want to create a timer, by using thread
         timerunner cd = new timerunner();
         Thread timetoend = new Thread(cd);
         timetoend.start();

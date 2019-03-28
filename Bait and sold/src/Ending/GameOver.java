@@ -11,12 +11,12 @@ public class GameOver {
     //JPanel shitty = new JPanel();
  //   JButton exit_game = new JButton("exit game");
     public Bloody gameover(){
-        gameover.decorate();
+        gameover.decorate(); //generate red bloody scene
 
         return gameover;
     }
     public Congrats gamewin(){
-        winner.decorate();
+        winner.decorate(); //generate happy scene
         return winner;
     }
 }

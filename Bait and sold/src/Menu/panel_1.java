@@ -12,14 +12,11 @@ public class panel_1{
         JPanel gamepane = new JPanel();
         JPanel menupane = new JPanel();
 
-        //using this for ending
-
         JButton newgame = new JButton("NEW GAME");
         JButton GotoMenu = new JButton( "Back to menu");
         JButton EndtoMenu = new JButton( "Continue?");
         JButton Endtest = new JButton("You lose");
         JButton Scoreboard = new JButton("Scoreboard");
-
 
         gamestarted gamepanel = new gamestarted();
         Datapanel topthree = new Datapanel();
@@ -45,9 +42,8 @@ public class panel_1{
 
                 GotoMenu.setBounds(1000, 700, 200, 50); //set location of the buttons
 
-                Endtest.setBounds(1000, 20, 200, 50);
+                //Endtest.setBounds(1000, 20, 200, 50);
 
-                //   JButton loadgame = new JButton("LOAD GAME");
            //     JButton help = new JButton("HELP");
 
                 //button.setFont(new Font("Arial", Font.PLAIN, 40)); my future plan
@@ -56,16 +52,16 @@ public class panel_1{
                 Scoreboard.setFont(new Font("Arial", Font.PLAIN, 28)); //set font inside buttons
             //    help.setFont(new Font("Arial", Font.PLAIN, 28));
                 GotoMenu.setFont(new Font("Arial", Font.PLAIN, 28)); //set location of the buttons
-                Endtest.setFont(new Font("Arial", Font.PLAIN, 22));
+                //Endtest.setFont(new Font("Arial", Font.PLAIN, 22));
 
                 menupane.setLayout(new GridBagLayout()); //when you want to center things in the panel use grid bags
                 menupane.setBackground(Color.BLACK); //add something for BG
 
 
-                newgame.addActionListener(new PanelListener1()); //to change panels mostly check below
-                GotoMenu.addActionListener(new PanelListener2());
-                EndtoMenu.addActionListener(new PanelListener3());
-                Scoreboard.addActionListener(new PanelListener4());
+                newgame.addActionListener(new Showgamepane()); //to change panels mostly check below
+                GotoMenu.addActionListener(new Showmenupane());
+                EndtoMenu.addActionListener(new BackToMenu());
+                Scoreboard.addActionListener(new Show_scoreboard());
 
 
                 //  loadgame.addActionListener(new PanelListener1());
@@ -86,7 +82,7 @@ public class panel_1{
                 c.ipadx = 300;
                 c.gridy = 1; // row 2
                 menupane.add(Scoreboard, c);
-                gamepane.add(EndtoMenu);
+             //   gamepane.add(EndtoMenu);
 
              //   c.ipadx = 380;
              //   c.gridy = 2; // row 3
@@ -97,47 +93,41 @@ public class panel_1{
                 return mainpane;
         }
 
-        class PanelListener1 implements ActionListener{
-                public void actionPerformed(ActionEvent event){
+        class Showgamepane implements ActionListener
+        {
+                public void actionPerformed(ActionEvent event)
+                {
                         cl.show(panestorage,"gamepane");
-                       // System.out.println("clicked");
-
                 }
         }
 
-        class PanelListener2 implements ActionListener{
-                public void actionPerformed(ActionEvent event){
+        class Showmenupane implements ActionListener{
+                public void actionPerformed(ActionEvent event)
+                {
                         cl.show(panestorage,"menupane");
-                      //  System.out.println("clicked");
                 }
         }
 
-        class PanelListener3 implements ActionListener{
-                public void actionPerformed(ActionEvent event){
+        class BackToMenu implements ActionListener
+        {
+                public void actionPerformed(ActionEvent event)
+                {
                         cl.show(panestorage,"menupane");
                         //System.out.println("clicked");
                         newgame.setText("NEW GAME");
                         gamepane.removeAll();
                         gamepane.revalidate();
                         gamepane.repaint();
-
                 }
-
         }
-        class PanelListener4 implements ActionListener{
-                public void actionPerformed(ActionEvent event){
+
+        class Show_scoreboard implements ActionListener
+        {
+                public void actionPerformed(ActionEvent event)
+                {
                         cl.show(panestorage,"topthree");
-                        try {
-                                topthree.adds();
-                        } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                        }
-                        System.out.println("clicked");
+                        try { topthree.adds();}
+                        catch (ClassNotFoundException e) {e.printStackTrace();}
                 }
         }
-
-
-
-
-
 }

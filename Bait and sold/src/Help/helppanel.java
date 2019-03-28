@@ -6,7 +6,7 @@ import java.awt.*;
 public class helppanel extends JPanel
 
     {
-        //public void
+        //will add later
 
 
 
