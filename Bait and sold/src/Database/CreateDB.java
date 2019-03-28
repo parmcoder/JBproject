@@ -2,7 +2,6 @@ package Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -13,7 +12,8 @@ public class CreateDB {
         Class.forName("org.sqlite.JDBC");
 
         Connection connection = null;
-        try{
+        try
+        {
             connection = DriverManager.getConnection("jdbc:sqlite:highscores.db");
 
             Statement statement = connection.createStatement();
@@ -21,6 +21,7 @@ public class CreateDB {
 
             statement.executeUpdate("DROP TABLE IF EXISTS highscore");
             statement.executeUpdate("CREATE TABLE highscore (player_name TEXT, score INTEGER )");
+            //we can utilize this to reset the scoreboard
 
         }
         catch(SQLException e){

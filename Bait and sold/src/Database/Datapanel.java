@@ -34,10 +34,7 @@ public class Datapanel extends JPanel {
         number3.setFont(new Font("Arial", Font.PLAIN, 25));
         number3.setText(data.show(3));
 
-        // Endtest.setBounds(1000, 20, 200, 50);
-       // Endtest.setFont(new Font("Arial", Font.PLAIN, 22));
-
-        this.setBackground(Color.lightGray);
+        this.setBackground(Color.lightGray); //this is what will be added in the scoreboard
         this.setLayout(null);
         this.add(first);
         this.add(second);
@@ -46,19 +43,4 @@ public class Datapanel extends JPanel {
         this.add(number2);
         this.add(number3);
     }
-  /*  @Override
-    public void paint(Graphics g){
-       // this.setLayout(null);
-        this.setBackground(Color.DARK_GRAY);
-       // this.add(BorderLayout.NORTH, first);
-       // this.add(second);
-       // this.add(third);
-    }
-
-   public void paintComponent(Graphics g) {
-       // super.paint(g);\
-        this.add(BorderLayout.NORTH, first);
-        this.add(second);
-        this.add(third);
-    } */
 }

@@ -9,26 +9,21 @@ public class SaveData {
     private String name;
     private int score;
 
-    public void save(String s, int money) throws ClassNotFoundException {
-
+    public void save(String s, int money) throws ClassNotFoundException  //need the name and money
+    {
         Class.forName("org.sqlite.JDBC");
-
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:highscores.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:highscores.db"); //connected!
             name = s;
             score = money;
-            String update = "INSERT INTO highscore VALUES('"+name+"',"+ score+")";
+            String update = "INSERT INTO highscore VALUES('"+name+"',"+ score+")"; //statment is written in String
+            //add data to database, but don't arrange it
+
             Statement statement = connection.createStatement();
-
             statement.setQueryTimeout(30);
-
-            //statement.executeUpdate("DROP TABLE IF EXISTS highscore");
-            //statement.executeUpdate("CREATE TABLE highscore (player_name TEXT, score INTEGER )");
-
-            //System.out.println(update);
-            statement.executeUpdate(update);
+            statement.executeUpdate(update); //use the String to execute
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
