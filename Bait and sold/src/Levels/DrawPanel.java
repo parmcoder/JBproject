@@ -12,47 +12,46 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class DrawPanel extends JPanel {
-    JPanel switcher = new JPanel();
+    //my game runs like menu with buttons and sequences, game-->add to scoreboard --> ending and bad ending for lazies
+    JPanel switcher = new JPanel(); //this will be the panel that it will show
 
     DrawPanel game = this;
 
-    Container editing = switcher; //try to make this changable
+    Container editing = switcher; //store in editing those panels
     CardLayout cl = new CardLayout();
 
     GameOver ending = new GameOver();
     JPanel badending = new JPanel();
     JPanel goodending = new JPanel();
 
-  //  Datapanel savescore = new Datapanel();
-  //  JPanel data = sa
-    public SaveData saver = new SaveData();
+    public SaveData saver = new SaveData(); //I want to save something, so I create this class
+    //remember that database stay the same no matter classes you create
 
     public int timer = 80;
     int superspawn = 0;
     String timestring = "Time left : ";
-    JLabel Time = new JLabel(timestring+timer+" seconds");
+    JLabel Time = new JLabel(timestring+timer+" seconds"); //trying to add timer that is not created from timer
 
-    JButton fishtime = new JButton("Click to Bait");
+    JButton fishtime = new JButton("Click to Bait"); //bait and catch them
     JButton SaveDB = new JButton("Save score");
 
     JTextField player = new JTextField("Your name");
 
     String score = "Money earned = ";
     int money = 0;
-   // public int timer = 80;
+   // haha money talks, my game will use money to decide who is the richest
 
-    JLabel label = new JLabel(score+money);
-  //  JLabel Time = new JLabel(timestring+timer+" seconds");
+    JLabel label = new JLabel(score+money); //I wanna add this to show the score
 
-    Image image = new ImageIcon("Pic_lib/Bucket.png").getImage();
+    Image image = new ImageIcon("Pic_lib/Bucket.png").getImage(); //I can use vicky's head instead...
 
-    public Boolean Finish = false;
+    public Boolean Finish = false; //Boolean is good, when the condition is not set
 
-    private ArrayList<EasyFish> fishlist = new ArrayList<>();
+    private ArrayList<EasyFish> fishlist = new ArrayList<>(); // the panel need access to change the fish
 
     public ArrayList<EasyFish> getFishlist(){
         return this.fishlist;
-    }
+    } //use this to get the fishes in the panel
 
     @Override
     public void setLayout(LayoutManager mgr) {
@@ -64,14 +63,14 @@ public class DrawPanel extends JPanel {
 
         for (int i = 0; i < 11; i++) {
             int x = (int) (175+Math.random() * 1000);
-            int y = (int) (100+Math.random() * 400);
+            int y = (int) (100+Math.random() * 400); //it will be created within this dimension
 
             fishlist.add(new EasyFish(x, y));
         }
 
         if(superspawn>2) {
 
-            for (int i = 0; i < superspawn; i++) {
+            for (int i = 0; i < superspawn-1; i++) {
                 int x = (int) (400 + Math.random() * 200);
                 int y = 400;
                 fishlist.add(new SuperFish(x, y));
@@ -175,17 +174,19 @@ public class DrawPanel extends JPanel {
         private int counter = 0;
         public void actionPerformed(ActionEvent event) {
             // if{fishlis
-            superspawn++;
+
             if(counter == 0){
                 countdown();
                 game.repaint();
                 counter = 1;
+
             }
             if (fishlist.size() == 0) {
                 fishlist = randomplace();
-                if(counter > 2){
+                if(counter > 1){
                 timer+=10;}
                 counter++;
+                superspawn++; //condition for winning, clear and catch super fishes
                 game.repaint();
             } else {
                 timer-=12;

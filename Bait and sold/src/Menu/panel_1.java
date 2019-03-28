@@ -27,40 +27,42 @@ public class panel_1{
        // JPanel loadpane = new JPanel();
       //  JPanel helppane = new JPanel();
 
-        Container panestorage = mainpane;
-        CardLayout cl = new CardLayout();
+        Container panestorage = mainpane; //remind that we need container to store panels but where--
+        // it will show? mainpane!
+        CardLayout cl = new CardLayout(); //layout for the panel to be switchable
 
 
         public JPanel menu() {
 
-                panestorage.setLayout(cl);
-                gamepane = gamepanel.getGamedraw();
-                //gamepane.addMouseListener(clicker);
+                panestorage.setLayout(cl); //set the layout of that container
+                gamepane = gamepanel.getGamedraw(); //for some reasons, I need to call this method to build game pane
 
                 panestorage.add(gamepane, "gamepane");
                 panestorage.add(menupane, "menupane");
-                panestorage.add(topthree, "topthree");
+                panestorage.add(topthree, "topthree"); //add those panels you need from the menu
 
-                cl.show(panestorage, "menupane");
-                GotoMenu.setBounds(1000, 700, 200, 50);
+                cl.show(panestorage, "menupane"); //show this pane first
+
+                GotoMenu.setBounds(1000, 700, 200, 50); //set location of the buttons
 
                 Endtest.setBounds(1000, 20, 200, 50);
-                Endtest.setFont(new Font("Arial", Font.PLAIN, 22));
 
                 //   JButton loadgame = new JButton("LOAD GAME");
            //     JButton help = new JButton("HELP");
 
-                //button.setFont(new Font("Arial", Font.PLAIN, 40));
+                //button.setFont(new Font("Arial", Font.PLAIN, 40)); my future plan
 
                 newgame.setFont(new Font("Arial", Font.PLAIN, 28));
-                Scoreboard.setFont(new Font("Arial", Font.PLAIN, 28));
+                Scoreboard.setFont(new Font("Arial", Font.PLAIN, 28)); //set font inside buttons
             //    help.setFont(new Font("Arial", Font.PLAIN, 28));
+                GotoMenu.setFont(new Font("Arial", Font.PLAIN, 28)); //set location of the buttons
+                Endtest.setFont(new Font("Arial", Font.PLAIN, 22));
 
-                menupane.setLayout(new GridBagLayout());
-                menupane.setBackground(Color.BLACK);
+                menupane.setLayout(new GridBagLayout()); //when you want to center things in the panel use grid bags
+                menupane.setBackground(Color.BLACK); //add something for BG
 
 
-                newgame.addActionListener(new PanelListener1());
+                newgame.addActionListener(new PanelListener1()); //to change panels mostly check below
                 GotoMenu.addActionListener(new PanelListener2());
                 EndtoMenu.addActionListener(new PanelListener3());
                 Scoreboard.addActionListener(new PanelListener4());
@@ -75,7 +77,7 @@ public class panel_1{
                 c.insets = new Insets(3, 3, 3, 3); // insets for all components - margin
                 c.gridx = 0; // column 0
                 c.gridy = 0; // row 0
-                c.ipadx = 300; // increases components width by 10 pixels (two sides)
+                c.ipadx = 300; // increases components width by 300 pixels (two sides)
                 c.ipady = 80; // increases components height by 10 pixel
                 menupane.add(newgame, c); // constraints passed in
 
@@ -90,7 +92,7 @@ public class panel_1{
              //   c.gridy = 2; // row 3
             //    menupane.add(help, c);
 
-                topthree.add(GotoMenu);
+                topthree.add(GotoMenu); //I added
 
                 return mainpane;
         }
