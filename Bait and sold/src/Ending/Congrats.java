@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,8 +34,9 @@ public class Congrats extends JPanel {
 
     public void paintComponent(Graphics g) // this will be called automatically
     {
+        try{
         super.paintComponent(g);
-        g.drawImage(nicebg,0,-100,null); //my background
+        g.drawImage(nicebg,0,-60,null); //my background
 
         for (Point2D bloodpos : spillcolor) {
             int red = (int) (Math.random() * 255);
@@ -43,7 +45,9 @@ public class Congrats extends JPanel {
             Color randomColor = new Color(red, green, blue); //colorful colors generator
             g.setColor(randomColor);
             g.fillOval((int) bloodpos.getX(), (int) bloodpos.getY(), 75, 75);
-        } //make it good, make it colorful, I random colors
+        }
+        }catch(
+        ConcurrentModificationException e){}//make it good, make it colorful, I random colors
     }
 
     class randomplace implements Runnable{

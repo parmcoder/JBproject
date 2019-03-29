@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class SuperFish extends EasyFish
+public class SuperFish extends EasyFish //Superfish is similar to Easyfish, except the picture
 {
     public SuperFish(int x, int y)
     {
@@ -40,6 +40,7 @@ public class SuperFish extends EasyFish
 
         public void run() {
             while (fish.isFishcanmove() && (x<1100) && (y>100))
+                // the fish stop around the top-right corner
             {
                 y -= deltay;
                 x += deltax;

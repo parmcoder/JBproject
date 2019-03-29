@@ -16,21 +16,21 @@ import java.util.ConcurrentModificationException;
 
 public class DrawPanel extends JPanel {
     //my game runs like menu with buttons and sequences, game-->add to scoreboard --> ending and bad ending for lazies
-    JPanel switcher = new JPanel(); //this will be the panel that it will show
+    JPanel switcher = new JPanel();     //this will be the panel that it will show
 
-    DrawPanel game = this;
+    DrawPanel game = this; //this panel is game, so I use this as a variable
 
-    Container editing = switcher; //store in editing those panels
+    Container editing = switcher;       //store in editing those panels
     CardLayout cl = new CardLayout();
 
-    GameOver ending = new GameOver(); //the endings will be called later after the game ends
+    GameOver ending = new GameOver();   //the endings will be called later after the game ends
     JPanel badending = new JPanel();
     JPanel goodending = new JPanel();
 
-    public SaveData saver = new SaveData(); //I want to save something, so I create this class
-    //remember that database stay the same no matter classes you create
-
-    public int timer = 80;
+    public SaveData saver = new SaveData();     //I want to save something, so I create this class
+                                                //remember that database stay the same no matter
+                                                //classes you create
+    public int timer = 80; //time starts at 80
     int superspawn = 0;
     String timestring = "Time left : ";
     JLabel Time = new JLabel(timestring+timer+" seconds"); //trying to add timer that is not created from timer
@@ -42,14 +42,14 @@ public class DrawPanel extends JPanel {
 
     String score = "Money earned = ";
     int money = 0;
-   // haha money talks, my game will use money to decide who is the richest
+    //haha money talks, my game will use money to decide who is the richest
 
     JLabel label = new JLabel(score+money);
     //I wanna add this to show the score
 
     Image image = new ImageIcon("Pic_lib/Bucket.png").getImage();
     //I can use vicky's head instead... but a bucket can keep fishes inside better
-    Image gamebg = new ImageIcon("Pic_lib/gamebg.jpg").getImage(); //I can use vicky's head instead...
+    Image gamebg = new ImageIcon("Pic_lib/gamebg.jpg").getImage(); //Just nice looking background
 
 
     public Boolean Finish = false;
@@ -130,8 +130,7 @@ public class DrawPanel extends JPanel {
     public void paintComponent(Graphics g) // this will be called automatically
     {
         super.paintComponent(g); //needed since we're using JPanel extends
-
-        setBackground(Color.DARK_GRAY); //allowed to add the BG properly
+        setBackground(Color.DARK_GRAY);
 
         game.add(fishtime);
         game.add(label);
@@ -141,12 +140,9 @@ public class DrawPanel extends JPanel {
             Finish = true; //affect events and other loops, stopping them and interrupt
             game.removeim(); //bye image
             game.removeAll(); //remove all to get the clean panel
-            for(EasyFish fish : fishlist){
-                fish = null;
-            }
             fishlist.removeAll(fishlist);
-            game.add(player);
-            game.add(SaveDB); //save score
+            game.add(player); //textfield box is added to the panel
+            game.add(SaveDB); //save score button is also added to the panel
 
         }else
             {
@@ -175,7 +171,7 @@ public class DrawPanel extends JPanel {
             if(game.money > 110)
             {
                 goodending = ending.gamewin();
-                editing.add(goodending, "goodending");
+                editing.add(goodending, "goodending"); //normally you will get this ending
                 cl.show(editing, "goodending");
             }
             else
@@ -200,44 +196,43 @@ public class DrawPanel extends JPanel {
         private int counter = 0;
         public void actionPerformed(ActionEvent event)
         {
-
-
             if(counter == 0)
             {
-                countdown();
+                countdown(); //You know that the timer must be able to countdown
                 game.repaint();
                 counter = 1; //prevent multiple countdown
             }
             if (fishlist.size() == 0)
             {
-                fishlist = randomplace();
-                if(counter == 1){timer+=10;}
                 SfxPlayer yeahsfx = new SfxPlayer("music_lib/Yeah.wav");
                 Thread YEAH = new Thread(yeahsfx);
-                YEAH.start();
-                superspawn++; //condition for winning, clear and catch super fishes
+                YEAH.start();   //play yeah sound
+                fishlist = randomplace();
+                if(counter == 1){timer+=10;}
+                superspawn++;   //condition for winning, clear and catch super fishes
                 game.repaint();
             } else {
-                timer-=20;
-                Time.setForeground(Color.RED);//this is the penalty for greedy people who try to get more fishes
-                //catch what you baited first
                 SfxPlayer sfx = new SfxPlayer("music_lib/pew.wav");
                 Thread Pew = new Thread(sfx);
-                Pew.start(); //Pew! you are greedy, got time deducted
+                Pew.start();
+                timer-=20;
+                Time.setForeground(Color.RED);  //this is the penalty for greedy people who try to get more fishes
+                //catch what you baited first or you will get PEW!
+                 //Pew! you are greedy, got time deducted
                 game.repaint();
             }
         }
 
     }
 
-    class timerunner implements Runnable
+    class timerunner implements Runnable //this is the thread that will make the timer runs down
     {
         int centisec =0;
         public void run()
         {
             while(timer>0)
             {
-                if(centisec==10)
+                if(centisec==10) //I want the frame to repaint often, for better fps.
                 {
                     timer-=1;
                     centisec=0;
@@ -253,12 +248,12 @@ public class DrawPanel extends JPanel {
     }
 
     public void countdown()
-    { //I want to create a timer, by using thread
-        timerunner cd = new timerunner();
-        Thread bgmthread = new Thread(bgm);
+    {
+        timerunner cd = new timerunner();       //let's say that I use this to start timer
+        Thread bgmthread = new Thread(bgm);     //also start the epic music in the background
         Thread timetoend = new Thread(cd);
         timetoend.start();
-        bgmthread.start();
+        bgmthread.start();  //start them all
     }
 }
 

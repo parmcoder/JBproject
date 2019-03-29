@@ -9,6 +9,7 @@ public class SaveData { //In this class, I will use try to save data to database
     private String name;
     private int score;
 
+    // I use this method in Drawpanel, it is in the Levels package
     public void save(String s, int money) throws ClassNotFoundException  //need the name and money
     {
         Class.forName("org.sqlite.JDBC"); //Find JDBC, install sqlite jar

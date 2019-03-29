@@ -1,7 +1,6 @@
 package Levels;
 
 import Fishes.EasyFish;
-import Sounds.SfxPlayer;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -36,9 +35,9 @@ public class GameMouseListener extends MouseAdapter
     @Override
     public void mouseClicked(MouseEvent e)
     {
-        remover = workingpanel.getFishlist(); //time to catch the fish and count to get score from game panel
+        remover = workingpanel.getFishlist();   //time to catch the fish and count to get score from game panel
         current = e.getPoint(); //this is point2D, we will deal with it
-        EasyFish the_fish = find(current); // use that point to find fish
+        EasyFish the_fish = find(current);  // use that point to find fish
 
         if(the_fish != null)
         { //in case we have the fish
@@ -58,12 +57,12 @@ public class GameMouseListener extends MouseAdapter
 
             catching(the_fish);//this will make the fish move to the bucket
 
-            if(the_fish.isBuyable())
+            if(the_fish.isBuyable()) //there is a variable Buyable in Easyfish
             {
-                the_fish.setBought();
+                the_fish.setBought();   //Always use this when the fish is clicked first time
                 workingpanel.money +=10;
             }
-            workingpanel.label.setText(workingpanel.score+workingpanel.money);
+            workingpanel.label.setText(workingpanel.score+workingpanel.money); //set them to current state
             workingpanel.repaint();
         }
         workingpanel.repaint();
@@ -91,11 +90,12 @@ public class GameMouseListener extends MouseAdapter
         MoveLeft(EasyFish fishpivot){
             fish = fishpivot;
         }
-        public void run()
+        public synchronized void run()
         {
-            while((workingpanel.Finish ^ true)&&stopper==0) {
-                while (fish.getFishx() >= 140) {
-                    int newx = fish.getFishx() - 1;
+            while((workingpanel.Finish ^ true)&&(stopper==0))
+            {                                                   //The MoveLeft thread will stop when
+                while (fish.getFishx() >= 140) {                //the fish is about to be remove
+                    int newx = fish.getFishx() - 1;             //
                     fish.setFishx(newx);
                     workingpanel.repaint();
                     if (workingpanel.Finish) {
@@ -104,8 +104,7 @@ public class GameMouseListener extends MouseAdapter
 
                     try {
                         Thread.sleep(8);
-                    } catch (Exception e) {
-                    }
+                    } catch (Exception e) {}
                 }
                 if (fish.getFishy() > 600 && fish.getFishx() < 155) {
                     workingpanel.getFishlist().remove(fish); //remove that fish\
@@ -125,9 +124,9 @@ public class GameMouseListener extends MouseAdapter
         MoveDown(EasyFish fishpivot){
             fish = fishpivot;
         }
-        public void run()
+        public synchronized void run()
         {
-            while(workingpanel.Finish ^ true&&stopper==0) {
+            while((workingpanel.Finish ^ true)&&(stopper==0)) {
                 while (fish.getFishy() <= 620) {
                     if (fish.getFishx() == 139) {
                         newy = fish.getFishy() + 8;
