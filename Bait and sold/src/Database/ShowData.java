@@ -9,7 +9,7 @@ public class ShowData {
     private int money =0;
     private String nameandscore;
     private String nameandscoredefault;
-    private List<String> ranking = new ArrayList();
+    private List<String> ranking = new ArrayList(); // I store things in a list
 
     public String show(int rank) throws ClassNotFoundException
     {
@@ -18,7 +18,7 @@ public class ShowData {
 
         try
         {
-            connection = DriverManager.getConnection("jdbc:sqlite:highscores.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:highscores.db"); //make sure you create DB first
             name = "None"; //sometimes the table has no data
             money = 0;
             nameandscoredefault = String.format("%s and %d",name,money);
@@ -31,12 +31,12 @@ public class ShowData {
             ResultSet rs = statement.executeQuery("SELECT player_name, score FROM highscore ORDER BY score DESC");
             //take out the set of data in descending order by score
 
-            while(rs.next())
+            while(rs.next()) //normally, there are data in database, but I have prepared for empty database
             {
             name = rs.getString("player_name");
             money = rs.getInt("score");
-            nameandscore = name +"#"+ money;
-            ranking.add(nameandscore);
+            nameandscore = name +"##"+ money; //the Hashtag is used for separation
+            ranking.add(nameandscore); //Just add it to the list, SIMPLE!
             }
 
         } catch (SQLException e) {
@@ -50,7 +50,7 @@ public class ShowData {
             }
             catch (SQLException e) {System.err.println(e);}
         }
-        if(ranking.size()<3)
+        if(ranking.size()<3) //Because I need at least 3 rankers, I have to make sure that the size it big enough
         { //seldom that the database has nothing inside or less than three
             for(int i =0 ; i < 5-ranking.size(); i++){ranking.add(nameandscoredefault);} //fill that ranking with default :P
         }
@@ -58,13 +58,14 @@ public class ShowData {
     }
     public String showname(int rank) throws ClassNotFoundException
     {
-       String[] a = show(rank).split("#");
-       return a[0];
+       String[] a = show(rank).split("##"); //Since we can call method in this class, just try to get
+        //the String is given out like Name##Money so I split it
+       return a[0]; //choose name
     }
     public String showmoney(int rank) throws ClassNotFoundException
     {
-        String[] a = show(rank).split("#");
-        return a[1];
+        String[] a = show(rank).split("##");
+        return a[1]; //choose money
     }
 }
-
+// This is the class that I use in the datapanel class

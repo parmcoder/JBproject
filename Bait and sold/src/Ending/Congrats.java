@@ -10,9 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Congrats extends JPanel {
+    //I just want to create good ending, it is similar to the bad ending
     private List<Point2D> spillcolor = new ArrayList<>();
     JLabel Yeah = new JLabel("Game over, well played");
-    Image nicebg = new ImageIcon("Pic_lib/good-end.jpg").getImage(); //I can use vicky's head instead...
+    Image nicebg = new ImageIcon("Pic_lib/good-end.jpg").getImage();
     SoundPlayer bgm = new SoundPlayer("music_lib/goodend.wav");
 
     public void decorate()
@@ -33,7 +34,7 @@ public class Congrats extends JPanel {
     public void paintComponent(Graphics g) // this will be called automatically
     {
         super.paintComponent(g);
-        g.drawImage(nicebg,0,0,this);
+        g.drawImage(nicebg,0,-100,null); //my background
 
         for (Point2D bloodpos : spillcolor) {
             int red = (int) (Math.random() * 255);
@@ -42,7 +43,7 @@ public class Congrats extends JPanel {
             Color randomColor = new Color(red, green, blue); //colorful colors generator
             g.setColor(randomColor);
             g.fillOval((int) bloodpos.getX(), (int) bloodpos.getY(), 75, 75);
-        }
+        } //make it good, make it colorful, I random colors
     }
 
     class randomplace implements Runnable{

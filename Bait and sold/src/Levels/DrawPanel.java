@@ -141,6 +141,9 @@ public class DrawPanel extends JPanel {
             Finish = true; //affect events and other loops, stopping them and interrupt
             game.removeim(); //bye image
             game.removeAll(); //remove all to get the clean panel
+            for(EasyFish fish : fishlist){
+                fish = null;
+            }
             fishlist.removeAll(fishlist);
             game.add(player);
             game.add(SaveDB); //save score

@@ -12,9 +12,9 @@ public class Datapanel extends JPanel {
     JLabel secondmoney = new JLabel();
     JLabel thirdmoney = new JLabel();
 
-    JLabel number1 = new JLabel("Boi");
-    JLabel number2 = new JLabel("Boi");
-    JLabel number3 = new JLabel("Boi");
+    JLabel number1 = new JLabel();
+    JLabel number2 = new JLabel();
+    JLabel number3 = new JLabel();
 
     ShowData data = new ShowData();
 
@@ -23,14 +23,14 @@ public class Datapanel extends JPanel {
 
     public void adds() throws ClassNotFoundException {
 
-        first.setBounds(550, 110, 500, 50);
-        first.setFont(new Font("Arial", Font.PLAIN, 28));
+        first.setBounds(550, 110, 500, 50);         //You don't need to read all these line
+        first.setFont(new Font("Arial", Font.PLAIN, 28));//Because I only want to set up a layout
         number1.setBounds(550, 140, 500, 60);
         number1.setFont(new Font("Arial", Font.PLAIN, 22));
-        number1.setText(data.showname(1));
+        number1.setText(data.showname(1));                      //!!!! THIS IS IMPORTANT CHECK SHOWDATA
         firstmoney.setBounds(550, 160, 500, 60);
         firstmoney.setFont(new Font("Arial", Font.PLAIN, 22));
-        firstmoney.setText("Earned "+data.showmoney(1));
+        firstmoney.setText("Earned "+data.showmoney(1));        //!!!! THIS IS IMPORTANT CHECK SAVEDATA
 
 
         second.setBounds(200, 480, 500, 60);
@@ -66,5 +66,5 @@ public class Datapanel extends JPanel {
     }
     public void paintComponent(Graphics g){
         g.drawImage(highscorebg,0,0,this);
-    }
+    } //my Background
 }

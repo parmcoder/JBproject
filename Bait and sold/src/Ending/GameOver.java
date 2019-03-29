@@ -1,9 +1,5 @@
 package Ending;
 
-
-import javax.swing.*;
-import java.awt.*;
-
 public class GameOver {
 
     Bloody gameover = new Bloody();

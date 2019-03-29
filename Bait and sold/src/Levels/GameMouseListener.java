@@ -86,24 +86,32 @@ public class GameMouseListener extends MouseAdapter
     class MoveLeft implements Runnable
     {
         EasyFish fish;
+        int stopper = 0;
 
         MoveLeft(EasyFish fishpivot){
             fish = fishpivot;
         }
-        public synchronized void run()
+        public void run()
         {
-            while (fish.getFishx() >= 140)
-            {
-                int newx = fish.getFishx()-1;
-                fish.setFishx(newx);
-                workingpanel.repaint();
-                if(fish==null || workingpanel.Finish){Thread.interrupted();}
+            while((workingpanel.Finish ^ true)&&stopper==0) {
+                while (fish.getFishx() >= 140) {
+                    int newx = fish.getFishx() - 1;
+                    fish.setFishx(newx);
+                    workingpanel.repaint();
+                    if (workingpanel.Finish) {
+                        Thread.currentThread().interrupt();
+                    }
 
-                try {Thread.sleep(8);} catch (Exception e) { }
-            }
-            if(fish.getFishy()>600 && fish.getFishx() < 155){
-                workingpanel.getFishlist().remove(fish); //remove that fish\
-                workingpanel.repaint();
+                    try {
+                        Thread.sleep(8);
+                    } catch (Exception e) {
+                    }
+                }
+                if (fish.getFishy() > 600 && fish.getFishx() < 155) {
+                    workingpanel.getFishlist().remove(fish); //remove that fish\
+                    workingpanel.repaint();
+                    stopper =1;
+                }
             }
         }
     }
@@ -112,30 +120,37 @@ public class GameMouseListener extends MouseAdapter
     {
         EasyFish fish;
         int newy;
+        int stopper;
 
         MoveDown(EasyFish fishpivot){
             fish = fishpivot;
         }
-        public synchronized void run()
+        public void run()
         {
-            while(true){
-            while (fish.getFishy() <= 620)
-            {
-                if(fish.getFishx() == 139){newy = fish.getFishy()+8;}
-                else{ newy = fish.getFishy()+1;}
-                fish.setFishy(newy);
-                workingpanel.repaint();
+            while(workingpanel.Finish ^ true&&stopper==0) {
+                while (fish.getFishy() <= 620) {
+                    if (fish.getFishx() == 139) {
+                        newy = fish.getFishy() + 8;
+                    } else {
+                        newy = fish.getFishy() + 1;
+                    }
+                    fish.setFishy(newy);
+                    workingpanel.repaint();
 
-                if(fish==null || workingpanel.Finish){Thread.interrupted();}
-                try {Thread.sleep(25);} catch (Exception e) { }
-            }
+                    if (fish == null || workingpanel.Finish) {
+                        Thread.interrupted();
+                    }
+                    try {
+                        Thread.sleep(25);
+                    } catch (Exception e) {
+                    }
+                }
 
-
-            if(fish.getFishy()>600 && fish.getFishx() < 155){
-                workingpanel.getFishlist().remove(fish); //remove that fish
-                workingpanel.repaint();
-                break;
-            }
+                if (fish.getFishy() > 600 && fish.getFishx() < 155) {
+                    workingpanel.getFishlist().remove(fish); //remove that fish
+                    workingpanel.repaint();
+                    stopper = 1;
+                }
             }
         }
     }

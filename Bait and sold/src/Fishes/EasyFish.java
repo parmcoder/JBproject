@@ -1,7 +1,5 @@
 package Fishes;
 
-import GameLauncher.Main;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -15,12 +13,7 @@ public class EasyFish {
     private int special = 0;
     private Boolean Buyable = true;
     Boolean canmove = true;
-    ImageObserver position = new ImageObserver() {
-        @Override
-        public boolean imageUpdate(Image image, int i, int i1, int i2, int i3, int i4) {
-            return false;
-        }
-    };
+    ImageObserver position;
 
     public EasyFish(int x, int y)
     {
