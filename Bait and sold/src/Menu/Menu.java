@@ -9,10 +9,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class panel_1 extends JPanel{
+public class Menu extends JPanel{
         JPanel mainpane = new JPanel();
         JPanel gamepane = new JPanel();
-        JPanel menupane = new bg();
+        JPanel menupane = new Bg();
 
         JButton newgame = new JButton("NEW GAME");
         JButton GotoMenu = new JButton( "Back to menu");
@@ -20,7 +20,7 @@ public class panel_1 extends JPanel{
         JButton Endtest = new JButton("You lose");
         JButton Scoreboard = new JButton("Scoreboard");
 
-        gamestarted gamepanel = new gamestarted();
+        Gamestarted gamepanel = new Gamestarted();
         Datapanel topthree = new Datapanel();
 
        // JPanel loadpane = new JPanel();
@@ -33,7 +33,7 @@ public class panel_1 extends JPanel{
         SoundPlayer bgmusic = new SoundPlayer("music_lib/gameost2.wav");
         Thread player = new Thread(bgmusic);
 
-        public JPanel menu() throws Exception{
+        public JPanel menu(){
                 player.start();
                 panestorage.setLayout(cl); //set the layout of that container
                 gamepane = gamepanel.getGamedraw(); //for some reasons, I need to call this method to build game pane

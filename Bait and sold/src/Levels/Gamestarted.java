@@ -1,7 +1,7 @@
 package Levels;
 import javax.swing.*;
 
-public class gamestarted {
+public class Gamestarted {
 
     DrawPanel gamedraw = new DrawPanel();
     JPanel test = new JPanel();

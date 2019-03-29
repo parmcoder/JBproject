@@ -204,17 +204,13 @@ public class DrawPanel extends JPanel {
             }
             if (fishlist.size() == 0)
             {
-                SfxPlayer yeahsfx = new SfxPlayer("music_lib/Yeah.wav");
-                Thread YEAH = new Thread(yeahsfx);
-                YEAH.start();   //play yeah sound
+                yeah();  //play yeah sound
                 fishlist = randomplace();
                 if(counter == 1){timer+=10;}
                 superspawn++;   //condition for winning, clear and catch super fishes
                 game.repaint();
             } else {
-                SfxPlayer sfx = new SfxPlayer("music_lib/pew.wav");
-                Thread Pew = new Thread(sfx);
-                Pew.start();
+                pew();
                 timer-=20;
                 Time.setForeground(Color.RED);  //this is the penalty for greedy people who try to get more fishes
                 //catch what you baited first or you will get PEW!
@@ -225,7 +221,18 @@ public class DrawPanel extends JPanel {
 
     }
 
-    class timerunner implements Runnable //this is the thread that will make the timer runs down
+    public void pew(){
+        SfxPlayer sfx = new SfxPlayer("music_lib/pew.wav");
+        Thread Pew = new Thread(sfx);
+        Pew.start();
+    }
+    public void yeah(){
+        SfxPlayer yeahsfx = new SfxPlayer("music_lib/Yeah.wav");
+        Thread YEAH = new Thread(yeahsfx);
+        YEAH.start();   //play yeah sound
+    }
+
+    class Timerunner implements Runnable //this is the thread that will make the timer runs down
     {
         int centisec =0;
         public void run()
@@ -249,7 +256,7 @@ public class DrawPanel extends JPanel {
 
     public void countdown()
     {
-        timerunner cd = new timerunner();       //let's say that I use this to start timer
+        Timerunner cd = new Timerunner();       //let's say that I use this to start timer
         Thread bgmthread = new Thread(bgm);     //also start the epic music in the background
         Thread timetoend = new Thread(cd);
         timetoend.start();

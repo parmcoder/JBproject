@@ -128,7 +128,7 @@ public class GameMouseListener extends MouseAdapter
         {
             while((workingpanel.Finish ^ true)&&(stopper==0)) {
                 while (fish.getFishy() <= 620) {
-                    if (fish.getFishx() == 139) {
+                    if (fish.getFishx() <= 140) {
                         newy = fish.getFishy() + 8;
                     } else {
                         newy = fish.getFishy() + 1;
